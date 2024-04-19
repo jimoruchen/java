@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class leetcode01 {
+public class Main {
     public static void main(String[] args) {
         Solution1 solution1 = new Solution1();
         Solution2 solution2 = new Solution2();
