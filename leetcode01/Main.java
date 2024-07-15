@@ -21,16 +21,16 @@ public class Main {
 
         System.out.println(Arrays.toString(solution1.twoSum(arr, target)));
 
-        List<int[]> result = solution2.twoSum(arr, target);
-        if (result == null) {
-            System.out.println("没有找到和为目标值的元素对。");
-        } else {
-            System.out.println("找到的和为目标值的元素对下标如下：");
-            for (int[] pair : result) {
-                System.out.println(Arrays.toString(pair));
-            }
-        }
-        scanner.close();
+//        List<int[]> result = solution2.twoSum(arr, target);
+//        if (result == null) {
+//            System.out.println("没有找到和为目标值的元素对。");
+//        } else {
+//            System.out.println("找到的和为目标值的元素对下标如下：");
+//            for (int[] pair : result) {
+//                System.out.println(Arrays.toString(pair));
+//            }
+//        }
+//        scanner.close();
 
     }
 }
