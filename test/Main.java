@@ -1,19 +1,27 @@
 package test;
 
-import java.util.stream.IntStream;
-
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x;}
+}
 public class Main {
     public static void main(String[] args) {
-        int[] nums1 = {1, 2, 3, 4, 5};
-        int[] nums2 = extend(nums1, 2);
-        for(int num : nums2)
-            System.out.println(num);
+        ListNode n0 = new ListNode(1);
+        ListNode n1 = new ListNode(2);
+        ListNode n2 = new ListNode(3);
+        ListNode n3 = new ListNode(4);
+        ListNode n4 = new ListNode(5);
+        n0.next = n1;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        insert(n1, 9);
+        System.out.println(n1.next.val);
     }
-    public static int[] extend(int[] nums1, int enlarge) {
-        int[] nums = new int[nums1.length + enlarge];
-        for (int i = 0; i < nums1.length; i++) {
-            nums[i] = nums1[i];
-        }
-        return nums;
+    static void insert(ListNode n1, int val) {
+        ListNode n2 = new ListNode(val);
+        n2.next = n1.next;
+        n1.next = n2;
     }
 }
