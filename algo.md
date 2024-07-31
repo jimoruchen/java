@@ -408,4 +408,72 @@ public class Main {
         n1.next = n1.next.next;
     }
 }
+```  
+
+* 访问节点
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ListNode n0 = new ListNode(1);
+        ListNode n1 = new ListNode(2);
+        ListNode n2 = new ListNode(3);
+        ListNode n3 = new ListNode(4);
+        ListNode n4 = new ListNode(5);
+        n0.next = n1;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        ListNode p = access(n0, 3);
+        if (p != null) {
+            System.out.println(p.val);
+        }
+    }
+    static ListNode access(ListNode head, int n) {
+        for (int i = 0; i < n; i++) {
+            if (head == null)
+                return null;
+            head = head.next;
+        }
+        return head;
+    }
+}
+```  
+
+* 查找节点  
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ListNode n0 = new ListNode(1);
+        ListNode n1 = new ListNode(2);
+        ListNode n2 = new ListNode(3);
+        ListNode n3 = new ListNode(4);
+        ListNode n4 = new ListNode(5);
+        n0.next = n1;
+        n1.next = n2;
+        n2.next = n3;
+        n3.next = n4;
+        System.out.println(find(n0, 3));
+    }
+    static int find(ListNode head, int target) {
+        int index = 0;
+        while (head != null) {
+            if(head.val == target)
+                return index;
+            head = head.next;
+            index++;
+        }
+        return -1;
+    }
+}
 ```
+
+<hr>
+
+### **列表** 
+
+#### **列表常用操作**
+
+* 初始化列表
+
