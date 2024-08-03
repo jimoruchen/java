@@ -476,4 +476,26 @@ public class Main {
 #### **列表常用操作**
 
 * 初始化列表
+```java
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> nums = new ArrayList<>();
+        Integer[] numbers = new Integer[] {1, 2, 3, 4, 5};
+        List<Integer> nums1 = new ArrayList<>(Arrays.asList(numbers));
+        System.out.println(nums1.get(0));
+    }
+}
+```
 
+* 访问元素  
+```java
+public class Main {
+    public static void main(String[] args) {
+        List<Integer> nums = new ArrayList<>();
+        nums.add(111);
+        nums.add(222);
+        nums.set(1, 333);
+        System.out.println(nums.get(1));
+    }
+}
+```
