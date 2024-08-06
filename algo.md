@@ -498,4 +498,259 @@ public class Main {
         System.out.println(nums.get(1));
     }
 }
+```  
+
+* 插入与删除元素  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Integer[] numbers = new Integer[] {1, 2};
+        List<Integer> nums = new ArrayList<>(Arrays.asList(numbers));
+        nums.clear();
+        nums.add(1);
+        nums.add(2);
+        nums.add(4);
+        nums.add(2, 3);
+        System.out.println(nums.get(2));    // 3
+        nums.remove(2);
+        System.out.println(nums.get(2));    // 4
+    }
+}
+```  
+
+* 遍历列表  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Integer[] numbers = new Integer[] {1, 2, 3, 4, 5};
+        List<Integer> nums = new ArrayList<>(Arrays.asList(numbers));
+        for (int i = 0; i < nums.size(); i++) 
+            System.out.print(nums.get(i) + " ");
+        System.out.println();
+        for (int num: nums) 
+            System.out.print(num + " ");
+    }
+}
+```  
+
+* 拼接列表  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Integer[] numbers = new Integer[] {1, 2, 3, 4, 5};
+        List<Integer> nums = new ArrayList<>(Arrays.asList(numbers));
+        List<Integer> nums1 = new ArrayList<>(Arrays.asList(6, 7, 8, 9, 10));
+        nums.addAll(nums1);
+        for (int num : nums)
+            System.out.println(num);
+    }
+}
+```  
+
+* 排序列表  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Integer[] numbers = new Integer[] {2, 1, 3, 4, 5};
+        List<Integer> nums = new ArrayList<>(Arrays.asList(numbers));
+        Collections.sort(nums);
+        for (int num : nums)
+            System.out.println(num);
+    }
+}
+```  
+
+<hr>
+
+#### **列表实现**  
+```java
+public class MyList {
+    private int[] arr;
+    private int capacity = 10;
+    private int size = 0;
+    private int extendRatio = 2;
+
+    public MyList() {
+        arr = new int[capacity];
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public int capacity() {
+        return capacity;
+    }
+
+    public void extendRatio() {
+        arr = Arrays.copyOf(arr, capacity() * extendRatio);
+        capacity = arr.length;
+    }
+    public int get(int index) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("索引越界");
+        return arr[index];
+    }
+
+    public void set(int index, int num) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("索引越界");
+        arr[index] = num;
+    }
+
+    public void add(int num) {
+        if(size == capacity())
+            extendRatio();
+        arr[size] = num;
+        size++;
+    }
+
+    public int remove(int index) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("索引越界");
+        int num = arr[index];
+        for(int i = index; i < size - 1; i++)
+            arr[i] = arr[i + 1];
+        size--;
+        return num;
+    }
+
+    public void insert(int index, int num) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("索引越界");
+        if(size == capacity())
+            extendRatio();
+        for(int j = size - 1; j >= index; j--)
+            arr[j + 1] = arr[j];
+        arr[index] = num;
+        size++;
+    }
+
+    public int[] toArray() {
+        int size = size();
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++)
+            arr[i] = get(i);
+        return arr;
+    }
+}
+```  
+
+<hr>
+
+## **栈与队列** 
+
+### **栈**  
+
+#### **栈的常用操作**  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        System.out.println(stack.peek());
+        System.out.println(stack.pop());
+        System.out.println(stack.size());
+        System.out.println(stack.isEmpty());
+    }
+}
+```  
+
+#### **栈的实现**
+
+* 基于数组的实现
+```java
+public class ArrayStack {
+    private ArrayList<Integer> stack;
+
+    public ArrayStack() {
+        stack = new ArrayList<>();
+    }
+
+    public int size() {
+        return stack.size();
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public void push(int value) {
+        stack.add(value);
+    }
+
+    public int peek() {
+        if (isEmpty())
+            throw new IndexOutOfBoundsException();
+        return stack.get(size() - 1);
+    }
+
+    public int pop() {
+        if (isEmpty())
+            throw new IndexOutOfBoundsException();
+        return stack.remove(size() - 1);
+    }
+
+    public Object[] toArray() {
+        return stack.toArray();
+    }
+}
+```  
+
+* 基于链表实现  
+```java
+public class LinkedListStack {
+    private ListNode stackPeek;
+    private int stksize = 0;
+
+    public LinkedListStack() {
+        stackPeek = null;
+    }
+
+    public int size() {
+        return stksize;
+    }
+
+    public boolean isEmpty() {
+        return stksize == 0;
+    }
+
+    public void push(int num) {
+        ListNode node = new ListNode(num);
+        node.next = stackPeek;
+        stackPeek = node;
+        stksize++;
+    }
+
+    public int pop() {
+        int num = stackPeek.val;
+        stackPeek = stackPeek.next;
+        stksize--;
+        return num;
+    }
+
+    public int peek() {
+        if(isEmpty())
+            throw new IndexOutOfBoundsException();
+        return stackPeek.val;
+    }
+
+    public int[] toArray() {
+        ListNode node = stackPeek;
+        int[] nums = new int[size()];
+        for (int i = size() - 1; i >= 0; i--) {
+            nums[i] = node.val;
+            node = node.next;
+        }
+        return nums;
+    }
+}
 ```
+
+<hr>  
+
+### **队列**  
+
+#### 
