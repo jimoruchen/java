@@ -4,14 +4,14 @@
 
 ## **1.复杂度分析**  
 
-### **1.1.算法效率评估**  
+### **1.1 算法效率评估**  
 
 * 时间效率：算法运行速度的快慢。
 * 空间效率：算法占用内存空间的大小。
 
-### **1.2.迭代和递归**  
+### **1.2 迭代和递归**  
 
-#### **1.2.1.迭代**  
+#### **1.2.1 迭代**  
 「迭代 iteration」是一种重复执行某个任务的控制结构。在迭代中，程序会在满足一定的条件下重复执行某
 段代码，直到这个条件不再满足。
 
@@ -68,7 +68,7 @@ public class Main {
 }
 ```  
 
-#### **1.2.2.递归**  
+#### **1.2.2 递归**  
 「递归 recursion」是一种算法策略，通过函数调用自身来解决问题。它主要包含两个阶段。
 1. 递：程序不断深入地调用自身，通常传入更小或更简化的参数，直到达到“终止条件”。
 2. 归：触发“终止条件”后，程序从最深层的递归函数开始逐层返回，汇聚每一层的结果。
@@ -102,7 +102,7 @@ public class Main {
 }
 ```
 
-### **1.3.时间复杂度**  
+### **1.3 时间复杂度**  
 * 常数阶 𝑂(1)  
 
 常数阶的操作数量与输入数据大小 𝑛 无关，即不随着 𝑛 的变化而变化。
@@ -256,9 +256,9 @@ public class Main {
 
 ## **2.数组与链表**  
 
-### **2.1.数组**  
+### **2.1 数组**  
 
-#### **2.1.1.数组常用操作**  
+#### **2.1.1 数组常用操作**  
 
 * 初始化数组  
 `int[] arr = new int[5];`  
@@ -325,9 +325,9 @@ public class Main {
 
 <hr>
 
-### **2.2.链表**
+### **2.2 链表**
 
-#### **2.2.1.链表节点类**  
+#### **2.2.1 链表节点类**  
 
 ```java
 class ListNode {
@@ -337,7 +337,7 @@ class ListNode {
 }
 ```
 
-#### **2.2.2.链表常用操作**
+#### **2.2.2 链表常用操作**
 
 * 初始化链表
 ```java
@@ -471,9 +471,9 @@ public class Main {
 
 <hr>
 
-### **列表** 
+### **2.3 列表** 
 
-#### **列表常用操作**
+#### **2.3.1 列表常用操作**
 
 * 初始化列表
 ```java
@@ -562,7 +562,7 @@ public class Main {
 
 <hr>
 
-#### **列表实现**  
+#### **2.3.2 列表实现**  
 ```java
 public class MyList {
     private int[] arr;
@@ -638,11 +638,11 @@ public class MyList {
 
 <hr>
 
-## **栈与队列** 
+## **3.栈与队列** 
 
-### **栈**  
+### **3.1 栈**  
 
-#### **栈的常用操作**  
+#### **3.1.1 栈的常用操作**  
 ```java
 public class Main {
     public static void main(String[] args) {
@@ -658,7 +658,7 @@ public class Main {
 }
 ```  
 
-#### **栈的实现**
+#### **3.1.2 栈的实现**
 
 * 基于数组的实现
 ```java
@@ -751,6 +751,291 @@ public class LinkedListStack {
 
 <hr>  
 
-### **队列**  
+### **3.2 队列**  
 
-#### 
+#### **3.2.1 队列常用操作**  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(1);
+        queue.offer(2);
+        queue.offer(3);
+        System.out.println(queue.poll());
+        System.out.println(queue.peek());
+        System.out.println(queue.size());
+        System.out.println(queue.isEmpty());
+    }
+}
+```  
+
+#### **3.2.2 队列实现**
+
+* 基于链表的实现
+```java
+public class LinkedListQueue {
+    private ListNode front, rear;
+    private int queSize = 0;
+
+    public LinkedListQueue() {
+        front = null;
+        rear = null;
+    }
+
+    public int size() {
+        return queSize;
+    }
+
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+    public int peek() {
+        if(isEmpty())
+            throw new IndexOutOfBoundsException();
+        return front.val;
+    }
+
+    public void offer(int num) {
+        ListNode node = new ListNode(num);
+        if(front == null) {
+            front = node;
+            rear = node;
+        } else {
+            rear.next = node;
+            rear = node;
+        }
+        queSize++;
+    }
+
+    public int poll() {
+        int num = front.val;
+        front = front.next;
+        queSize--;
+        return num;
+    }
+
+    public int[] toArray() {
+        ListNode node = front;
+        int[] nums = new int[queSize];
+        for (int i = 0; i < queSize; i++) {
+            nums[i] = node.val;
+            node = node.next;
+        }
+        return nums;
+    }
+}
+```  
+
+### **3.3双向队列**  
+
+#### **3.3.1双向队列常用操作**  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Deque<Integer> deque = new LinkedList<Integer>();
+        deque.offerLast(3);
+        deque.offerLast(4);
+        deque.offerLast(5);
+        deque.offerFirst(2);
+        deque.offerFirst(1);
+        System.out.println(deque.size());
+        System.out.println(deque.isEmpty());
+        System.out.println(deque.pollFirst());
+        System.out.println(deque.pollLast());
+        System.out.println(deque.peekFirst());
+        System.out.println(deque.peekLast());
+    }
+}
+```  
+
+<hr>
+
+## **4.哈希表**  
+
+### **4.1 哈希表**  
+「哈希表 hash table」，又称「散列表」，它通过建立键 key 与值 value 之间的映射，实现高效的元素查询。具体而言，我们向哈希表中输入一个键 key ，则可以在 𝑂(1) 时间内获取对应的值 value 。
+<img src="https://s2.loli.net/2024/08/07/nxkdEapPNSsblF6.png">
+
+#### **4.1.1 哈希表常用操作**  
+```java
+public class Main {
+    public static void main(String[] args) {
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "AAA");
+        map.put(2, "BBB");
+        map.put(3, "CCC");
+        map.put(4, "DDD");
+        String str = map.get(1);
+        map.remove(4);
+        boolean b = map.containsKey(3);
+        for (Map.Entry<Integer, String> kv : map.entrySet())
+            System.out.println(kv.getKey() + ", " + kv.getValue());
+        for (int key : map.keySet())
+            System.out.println(key);
+        for (String value : map.values())
+            System.out.println(value);
+    }
+}
+```
+
+#### **4.1.2 哈希冲突与扩容**
+
+* 链式地址
+```java
+public class Pair {
+    public int key;
+    public String val;
+    public Pair(int key, String val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
+public class HashMapChaining {
+    int size;
+    int capacity;
+    double loadThres;
+    int extendRatio;
+    List<List<Pair>> buckets;
+
+    public HashMapChaining() {
+        size = 0;
+        capacity = 4;
+        loadThres = 2.0 / 3.0;
+        extendRatio = 2;
+        buckets = new ArrayList<>(capacity);
+        for (int i = 0; i < capacity; i++)
+            buckets.add(new ArrayList<>());
+    }
+
+    int hashFunc(int key) {
+        return key % capacity;
+    }
+
+    double loadFactor() {
+        return (double) size / capacity;
+    }
+
+    String get(int key) {
+        int index = hashFunc(key);
+        List<Pair> bucket = buckets.get(index);
+        for (Pair pair : bucket) {
+            if (pair.key == index)
+                return pair.val;
+        }
+        return null;
+    }
+
+    void put(int key, String val) {
+        if (loadFactor() > loadThres)
+            extend();
+        int index = hashFunc(key);
+        List<Pair> bucket = buckets.get(index);
+        for (Pair pair : bucket) {
+            if (pair.key == key) {
+                pair.val = val;
+                return;
+            }
+        }
+        Pair pair = new Pair(key, val);
+        bucket.add(pair);
+        size++;
+    }
+
+    void remove(int key) {
+        int index = hashFunc(key);
+        List<Pair> bucket = buckets.get(index);
+        for (Pair pair : bucket) {
+            if (pair.key == key) {
+                bucket.remove(pair);
+                size--;
+                break;
+            }
+        }
+    }
+
+    void extend() {
+        List<List<Pair>> bucketsTmp = buckets;
+        capacity *= extendRatio;
+        buckets = new ArrayList<>(capacity);
+        for (int i = 0; i < capacity; i++)
+            buckets.add(new ArrayList<>());
+        size = 0;
+        for (List<Pair> bucket : bucketsTmp) {
+            for (Pair pair : bucket)
+                put(pair.key, pair.val);
+        }
+    }
+
+    void print() {
+        for (List<Pair> bucket : buckets) {
+            List<String> res = new ArrayList<>();
+            for (Pair pair : bucket)
+                res.add(pair.val + "->" + pair.val);
+            System.out.println(res);
+        }
+    }
+}
+```
+
+<hr>
+
+## **5.树**
+
+### **5.1 二叉树**
+```java
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) {val = x;}
+}
+```
+#### **5.1.1二叉树基本操作**
+* 初始化二叉树
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        n1.left = n2;
+        n1.right = n3;
+        n2.left = n4;
+        n2.right = n5;
+        System.out.println(n1.left.left.val);       // 4
+    }
+}
+```
+
+* 插入与删除节点
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        n1.left = n2;
+        n1.right = n3;
+        n2.left = n4;
+        n2.right = n5;
+        System.out.println(n1.left.left.val);       // 4
+        TreeNode p = new TreeNode(6);
+        n1.left = p;
+        p.left = n2;
+        System.out.println(n1.left.left.val);       // 2
+        n1.left = n2;
+        System.out.println(n1.left.left.val);       // 4
+    }
+}
+```
+
+#### **5.1.2 常见二叉树类型**
+* 完美（满）二叉树
+
+
