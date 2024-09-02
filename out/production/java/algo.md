@@ -1029,9 +1029,280 @@ public class Main {
         n1.left = p;
         p.left = n2;
         System.out.println(n1.left.left.val);       // 2
+        n1.left = n2;
+        System.out.println(n1.left.left.val);       // 4
     }
 }
 ```
 
+#### **5.1.2 常见二叉树类型**
+* 完美二叉树
+<img src="https://s2.loli.net/2024/08/30/uP182DW6ieFAxnw.png" >
+
+* 完全二叉树
+只有最底层的节点未被填满，且最底层节点尽量靠左填充。
+<img src="https://s2.loli.net/2024/08/30/oD7fKkUhHsbugdF.png" >
+
+* 完满二叉树
+除了叶节点之外，其余所有节点都有两个子节点
+<img src="https://s2.loli.net/2024/08/30/VyHCgn6vSN9lbBp.png" >
+
+* 平衡二叉树
+任意节点的左子树和右子树的高度之差的绝对值不超过1。
+<img src="https://s2.loli.net/2024/08/30/VyHCgn6vSN9lbBp.png" >
 
 
+### 5.2二叉树遍历
+
+#### 5.2.1 层序遍历
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        n1.left = n2;
+        n1.right = n3;
+        n2.left = n4;
+        n2.right = n5;
+        List<Integer> nums = levelOrder(n1);
+        for (int num : nums)
+            System.out.println(num);
+    }
+
+    public static List<Integer> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        List<Integer> list = new ArrayList<>();
+        while(!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null)
+                queue.add(node.left);
+            if (node.right != null)
+                queue.add(node.right);
+        }
+        return list;
+    }
+}
+```
+
+#### 5.2.2 前序、中序、后序遍历
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        n1.left = n2;
+        n1.right = n3;
+        n2.left = n4;
+        n2.right = n5;
+        n3.left = n6;
+        n3.right = n7;
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        List<Integer> list3 = new ArrayList<>();
+        System.out.println("先序遍历:");
+        for (int num : preOrder(n1, list1))
+            System.out.print(num + " ");
+        System.out.println();
+        System.out.println("中序遍历:");
+        for (int num : inOrder(n1, list2))
+            System.out.print(num + " ");
+        System.out.println();
+        System.out.println("后序遍历:");
+        for (int num : postOrder(n1, list3))
+            System.out.print(num + " ");
+    }
+    public static List<Integer> preOrder(TreeNode root, List<Integer> list) {
+        if (root == null)
+            return null;
+        list.add(root.val);
+        preOrder(root.left, list);
+        preOrder(root.right, list);
+        return list;
+    }
+    public static List<Integer> inOrder(TreeNode root, List<Integer> list) {
+        if (root == null)
+            return null;
+        inOrder(root.left, list);
+        list.add(root.val);
+        inOrder(root.right, list);
+        return list;
+    }
+    public static List<Integer> postOrder(TreeNode root, List<Integer> list) {
+        if (root == null)
+            return null;
+        postOrder(root.left, list);
+        postOrder(root.right, list);
+        list.add(root.val);
+        return list;
+    }
+}
+```
+
+### 5.3二叉搜索树
+1. 对于根节点，左子树中所有节点的值 < 根节点的值 < 右子树中所有节点的值。
+2. 任意节点的左、右子树也是二叉搜索树，即同样满足条件1。  
+<img src="https://s2.loli.net/2024/09/01/ZIsemwi5vatWM4C.png" >  
+
+#### 5.3.1 二叉搜索树的操作
+* 查找节点
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        TreeNode n8 = new TreeNode(8);
+        TreeNode n9 = new TreeNode(9);
+        TreeNode n10 = new TreeNode(10);
+        TreeNode n11 = new TreeNode(11);
+        TreeNode n12 = new TreeNode(12);
+        TreeNode n13 = new TreeNode(13);
+        TreeNode n14 = new TreeNode(14);
+        TreeNode n15 = new TreeNode(15);
+        n8.left = n4;
+        n8.right = n12;
+        n4.left = n2;
+        n4.right = n6;
+        n12.left = n10;
+        n12.right = n14;
+        n2.left = n1;
+        n2.right = n3;
+        n6.left = n5;
+        n6.right = n7;
+        n10.left = n9;
+        n10.right = n11;
+        n14.left = n13;
+        n14.right = n15;
+        List<Integer> list = levelOrder(n8);
+        for (Integer num : list)
+            System.out.print(num + " ");        // 8 4 12 2 6 10 14 1 3 5 7 9 11 13 15
+        TreeNode node = search(1, n8);
+        System.out.println(node.val);           // 1
+    }
+    
+    public static TreeNode search(int num, TreeNode root) {
+        TreeNode cur = root;
+        while (cur != null) {
+            if (num < cur.val)
+                cur = cur.left;
+            else if (num > cur.val)
+                cur = cur.right;
+            else break;
+        }
+        return cur;
+    }
+
+    public static List<Integer> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        List<Integer> list = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null)
+                queue.add(node.left);
+            if (node.right != null)
+                queue.add(node.right);
+        }
+        return list;
+    }
+}
+```
+
+* 插入节点 
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        TreeNode n8 = new TreeNode(8);
+        TreeNode n9 = new TreeNode(9);
+        TreeNode n10 = new TreeNode(10);
+        TreeNode n11 = new TreeNode(11);
+        TreeNode n12 = new TreeNode(12);
+        TreeNode n13 = new TreeNode(13);
+        TreeNode n14 = new TreeNode(14);
+        TreeNode n15 = new TreeNode(15);
+        n8.left = n4;
+        n8.right = n12;
+        n4.left = n2;
+        n4.right = n6;
+        n12.left = n10;
+        n12.right = n14;
+        n2.left = n1;
+        n2.right = n3;
+        n6.left = n5;
+        n6.right = n7;
+        n10.left = n9;
+        n10.right = n11;
+        n14.left = n13;
+        n14.right = n15;
+        insert(-1, n8); 
+        System.out.println(n1.left.val);        // -1
+        List<Integer> list = levelOrder(n8);
+        for (Integer num : list)
+            System.out.print(num + " ");        // 8 4 12 2 6 10 14 1 3 5 7 9 11 13 15 -1 
+    }
+
+    public static void insert(int num, TreeNode root) {
+        if (root == null) {
+            root = new TreeNode(num);
+            return;
+        }
+        TreeNode cur = root, pre = null;
+        while (cur != null) {
+            if (cur.val == num)
+                return;
+            pre = cur;
+            if (num < cur.val)
+                cur = cur.left;
+            else
+                cur = cur.right;
+        }
+        TreeNode node = new TreeNode(num);
+        if (num > pre.val)
+            pre.right = node;
+        else
+            pre.left = node;
+    }
+
+    public static List<Integer> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        List<Integer> list = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null)
+                queue.add(node.left);
+            if (node.right != null)
+                queue.add(node.right);
+        }
+        return list;
+    }
+}
+```
+
+* 删除节点
+```java
+
+```
