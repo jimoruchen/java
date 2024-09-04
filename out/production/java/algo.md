@@ -987,6 +987,7 @@ public class HashMapChaining {
 ```java
 public class TreeNode {
     int val;
+    int height;         // 用于AVL
     TreeNode left;
     TreeNode right;
     TreeNode(int x) {val = x;}
@@ -1303,6 +1304,223 @@ public class Main {
 ```
 
 * 删除节点
+```java
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        TreeNode n8 = new TreeNode(8);
+        TreeNode n9 = new TreeNode(9);
+        TreeNode n10 = new TreeNode(10);
+        TreeNode n11 = new TreeNode(11);
+        TreeNode n12 = new TreeNode(12);
+        TreeNode n13 = new TreeNode(13);
+        TreeNode n14 = new TreeNode(14);
+        TreeNode n15 = new TreeNode(15);
+        n8.left = n4;
+        n8.right = n12;
+        n4.left = n2;
+        n4.right = n6;
+        n12.left = n10;
+        n12.right = n14;
+        n2.left = n1;
+        n2.right = n3;
+        n6.left = n5;
+        n6.right = n7;
+        n10.left = n9;
+        n10.right = n11;
+        n14.left = n13;
+        n14.right = n15;
+        remove(6, n8);
+        List<Integer> list = levelOrder(n8);
+        for (Integer num : list)
+            System.out.print(num + " ");        // 8 4 12 2 7 10 14 1 3 5 9 11 13 15 
+    }
+
+    public static void remove(int num, TreeNode root) {
+        if (root == null) return;
+        TreeNode cur = root, pre = null;
+        while (cur != null) {
+            if (num == cur.val)
+                break;
+            pre = cur;
+            if (num > cur.val)
+                cur = cur.right;
+            else
+                cur = cur.left;
+        }
+        if (cur == null)
+            return;
+        if (cur.left == null || cur.right == null) {
+            TreeNode child = cur.left != null ? cur.left : cur.right;
+            if (cur != root) {
+                if (pre.left == cur)
+                    pre.left = child;
+                else
+                    pre.right = child;
+            } else {
+                root = child;
+            }
+        } else {
+            TreeNode tmp = cur.right;
+            while (tmp.left != null)
+                tmp = tmp.left;
+            remove(tmp.val, root);
+            cur.val = tmp.val;
+        }
+
+    }
+
+    public static List<Integer> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        List<Integer> list = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node.left != null)
+                queue.add(node.left);
+            if (node.right != null)
+                queue.add(node.right);
+        }
+        return list;
+    }
+}
+```
+
+### 5.4 AVL 树
+
+#### 5.4.1 AVL 树常见术语
+* 节点高度
+```java
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        TreeNode n8 = new TreeNode(8);
+        TreeNode n9 = new TreeNode(9);
+        TreeNode n10 = new TreeNode(10);
+        TreeNode n11 = new TreeNode(11);
+        TreeNode n12 = new TreeNode(12);
+        TreeNode n13 = new TreeNode(13);
+        TreeNode n14 = new TreeNode(14);
+        TreeNode n15 = new TreeNode(15);
+        n8.left = n4;
+        n8.right = n12;
+        n4.left = n2;
+        n4.right = n6;
+        n12.left = n10;
+        n12.right = n14;
+        n2.left = n1;
+        n2.right = n3;
+        n6.left = n5;
+        n6.right = n7;
+        n10.left = n9;
+        n10.right = n11;
+        n14.left = n13;
+        n14.right = n15;
+        remove(6, n8);
+        List<Integer> list = levelOrder(n8);
+        for (Integer num : list)
+            System.out.print(num + " ");
+    }
+
+    public static int height(TreeNode root) {
+        return root == null ? -1 : root.height;
+    }
+
+    public static void updateHeight(TreeNode node) {
+        node.height = Math.max(node.left.height, node.right.height) + 1;
+    }
+}
+```
+
+<hr>
+
+## **6.堆**
+
+### **6.1堆**
+堆是一种满足特定条件的完全二叉树，主要可分为两种类型：
+「小顶堆 min heap」：任意节点的值 ≤ 其子节点的值。
+「大顶堆 max heap」：任意节点的值 ≥ 其子节点的值。
+<img src="https://s2.loli.net/2024/09/03/pUgM3rjYGdmbC9E.png" >
+
+#### **6.1.1 堆的常用操作**
+```java
+public class heap {
+    public static void main(String[] args) {
+        Queue<Integer> minHeap = new PriorityQueue<Integer>();
+        Queue<Integer> maxHeap = new PriorityQueue<Integer>((a, b) -> b - a);
+        maxHeap.add(1);
+        maxHeap.add(2);
+        maxHeap.add(3);
+        maxHeap.add(4);
+        maxHeap.add(5);
+        int peek = maxHeap.peek();
+        int num = maxHeap.poll();
+        int size = maxHeap.size();
+        boolean isEmpty = maxHeap.isEmpty();
+        minHeap = new PriorityQueue<>(Arrays.asList(1, 3, 2, 5, 4));
+        System.out.println(peek);
+    }
+}
+```
+
+### **6.2Top_K问题**
+给定一个长度为 𝑛 的无序数组 nums ，请返回数组中最大的 𝑘 个元素。
+```java
+public class heap {
+    public static void main(String[] args) {
+        int nums[] = {1, 7, 6, 3, 2};
+        Queue<Integer> queue = topKHeap(nums, 3);
+        for (int i = 0; i < 3; i++)
+            System.out.println(queue.poll());
+    }
+
+    public static Queue<Integer> topKHeap(int[] nums, int k) {
+        Queue<Integer> heap = new PriorityQueue<>();
+        for (int i = 0; i < k; i++)
+            heap.add(nums[i]);
+        for (int i = k; i < nums.length; i++) {
+            if (nums[i] > heap.peek()) {
+                heap.poll();
+                heap.offer(nums[i]);
+            }
+        }
+        return heap;
+    }
+}
+```
+
+<hr>
+
+## **7.图**
+
+### **7.1 图**
+
+#### **7.1.1图的表示**
+* 邻接矩阵
+<img src="https://s2.loli.net/2024/09/04/CE4xfb8Sw1uNMVU.png" >
+
+* 邻接表
+<img src="https://s2.loli.net/2024/09/04/l91uVOSTZaIAxri.png" >
+
+### **7.2 图的基础操作**
+
+#### **7.2.1基于邻接矩阵的实现**
 ```java
 
 ```

@@ -2,7 +2,7 @@ package test;
 
 import java.util.*;
 
-public class Main {
+public class Tree {
     public static void main(String[] args) {
         TreeNode n1 = new TreeNode(1);
         TreeNode n2 = new TreeNode(2);
@@ -105,6 +105,14 @@ public class Main {
             cur.val = tmp.val;
         }
 
+    }
+
+    public static int height(TreeNode root) {
+        return root == null ? -1 : root.height;
+    }
+
+    public static void updateHeight(TreeNode node) {
+        node.height = Math.max(node.left.height, node.right.height) + 1;
     }
 
     public static List<Integer> levelOrder(TreeNode root) {
