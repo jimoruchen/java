@@ -173,3 +173,37 @@ class Solution {
 ```  
 采用双指针，当从第0个字符开始，字符不在set中则加入到set，右指针右移。  
 如果右侧出现相同的字符，则左指针右移一位并将相同的字符从set中移除。
+
+<hr> 
+
+## **189.轮转数组**
+### **题目**
+给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+
+* 示例1：
+
+>输入: nums = [1,2,3,4,5,6,7], k = 3  
+>输出: [5,6,7,1,2,3,4]  
+>解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
+
+### **代码**
+
+```java
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int length = nums.length;
+        k = k % length;
+        int[] nums1 = new int[length];
+        for (int i = 0; i < k; i++) {
+            nums1[i] = nums[length - k + i] ;
+        }
+        for (int j = k; j < length; j++) {
+            nums1[j] = nums[j - k];
+        }
+        System.arraycopy(nums1, 0, nums, 0, length);
+    }
+}
+```
+记住最后将临时数组写回原数组。
+
+<hr>

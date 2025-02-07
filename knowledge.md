@@ -45,3 +45,95 @@ public class Test {
     }
 }
 ```
+
+## 5.常用方法
+* `for (int i = 0; i < numStr.length(); i++) 
+     result[i] = numStr.charAt(i) - '0';`  
+charAt(i)读取字符串第i个元素
+
+* 将数字数字转为数字
+```java
+public class Test {
+    public static void main(String[] args) {
+        int[] nums = {1,2,3,4,5,6,7,8,9};
+        int num = 0;
+        for (int j : nums)
+            num = num * 10 + j;
+        System.out.println(num);
+    }
+}
+```
+
+* 将数字字符串转为整型
+```java
+public class Test {
+    public static void main(String[] args) {
+        String s1 = "111";
+        //Integer i = new Integer(s1);  //弃用
+        Integer i1 = Integer.valueOf(s1);
+        Integer i2 = Integer.valueOf(s1);
+        int i3 = i1.intValue();  //转为int
+        System.out.println(i3);
+    }
+}
+```
+
+* 将整型转为字符串
+```java
+public class Test {
+    public static void main(String[] args) {
+        int num = 111;
+        String s = String.valueOf(num);
+        String s1 = Integer.toString(num);
+        System.out.println(s1.getClass().getName());
+    }
+}
+```
+
+* 比较两个字符串的内容使用equals方法
+```java
+public class Main {
+    public static void main(String[] args) {
+        String str1 = new String("Hello World");
+        String str2 = new String("Hello World");
+        System.out.println(str1.equals(str2));   //字符串的内容比较，一定要用equals
+    }
+}
+```
+
+* 裁剪字符串
+```java
+public class Main {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        String sub = str.substring(0, 3);   //分割字符串，并返回一个新的子串对象
+        System.out.println(sub);        //Hel
+    }
+}
+```
+
+* 分割字符串
+```java
+public class Main {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        String[] strings = str.split(" ");   //使用split方法进行字符串分割，比如这里就是通过空格分隔，得到一个字符串数组
+        for (String string : strings) {
+            System.out.println(string);
+        }
+    }
+}
+```
+
+* 字符串与字符数组相互转换
+```java
+public class Main {
+    public static void main(String[] args) {
+        String str = "Hello World";
+        char[] chars = str.toCharArray();
+        System.out.println(chars);
+        String str1 = new String(chars);
+        System.out.println(str1);
+    }
+}
+```

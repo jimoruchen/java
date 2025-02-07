@@ -1522,5 +1522,168 @@ public class heap {
 
 #### **7.2.1基于邻接矩阵的实现**
 ```java
+public class GraphAdjMat {
+    List<Integer> vertices;
+    List<List<Integer>> adjMat;
 
+    public GraphAdjMat(int[] vertices, int[][] edges) {
+        this.vertices = new ArrayList<>();
+        this.adjMat = new ArrayList<>();
+        for (int val : vertices)
+            addVertex(val);
+        for (int[] e : edges)
+            addEdge(e[0], e[1]);
+    }
+
+    public int size() {
+        return vertices.size();
+    }
+
+    public void addVertex(int val) {
+        int n = size();
+        vertices.add(val);
+        List<Integer> newRow = new ArrayList<>(n);
+        for (int j = 0; j < n; j++) {
+            newRow.add(0);
+        }
+        adjMat.add(newRow);
+        for (List<Integer> row : adjMat)
+            row.add(0);
+    }
+
+    public void addEdge(int i, int j) {
+        if (i < 0 || j < 0 || i >= size() || j >= size() ||i == j)
+            throw new IndexOutOfBoundsException();
+        adjMat.get(i).set(j, 1);
+        adjMat.get(j).set(i, 1);
+    }
+
+    public void removeVertex(int index) {
+        if (index >= size())
+            throw new IndexOutOfBoundsException();
+        vertices.remove(index);
+        adjMat.remove(index);
+        for (List<Integer> row : adjMat)
+            row.remove(index);
+    }
+
+    public void removeEdge(int i, int j) {
+        if (i < 0 || j < 0 || i >= size() || j >= size() ||i == j)
+            throw new IndexOutOfBoundsException();
+        adjMat.get(i).set(j, 0);
+        adjMat.get(j).set(i, 0);
+    }
+
+    public void print() {
+        System.out.println("顶点列表:");
+        System.out.println(vertices);
+        System.out.println("邻接矩阵:");
+        for (List<Integer> row : adjMat)
+            System.out.println(row);
+    }
+
+    public static void main(String[] args) {
+        int[] vertices = {1, 2, 3, 4};
+        int[][] edges = {
+                {0, 1},
+                {1, 2},
+                {2, 3},
+                {3, 0}
+        };
+        GraphAdjMat graph = new GraphAdjMat(vertices, edges);
+        graph.print();
+//        顶点列表:
+//        [1, 2, 3, 4]
+//        邻接矩阵:
+//        [0, 1, 0, 1]
+//        [1, 0, 1, 0]
+//        [0, 1, 0, 1]
+//        [1, 0, 1, 0]
+    }
+}
+
+```
+
+#### **7.2.2基于邻接表的实现**
+```java
+public class Vertex {
+    public int val;
+    public Vertex(int val) {
+        this.val = val;
+    }
+}
+
+public class GraphAdjList {
+    Map<Vertex, List<Vertex>> adjList;
+
+    public GraphAdjList(Vertex[][] edges) {
+        adjList = new HashMap<>();
+        for (Vertex[] edge : edges) {
+            addVertex(edge[0]);
+            addVertex(edge[1]);
+            addEdge(edge[0], edge[1]);
+        }
+    }
+
+    public int size() {
+        return adjList.size();
+    }
+
+    public void addEdge(Vertex vet1, Vertex vet2) {
+        if (!adjList.containsKey(vet1) || !adjList.containsKey(vet2) || vet1 == vet2)
+            throw new IllegalArgumentException();
+        adjList.get(vet1).add(vet2);
+        adjList.get(vet2).add(vet1);
+    }
+
+    public void removeEdge(Vertex vet1, Vertex vet2) {
+        if (!adjList.containsKey(vet1) || !adjList.containsKey(vet2) || vet1 == vet2)
+            throw new IllegalArgumentException();
+        adjList.get(vet1).remove(vet2);
+        adjList.get(vet2).remove(vet1);
+    }
+
+    public void addVertex(Vertex vet) {
+        if (adjList.containsKey(vet))
+            return;
+        adjList.put(vet, new ArrayList<>());
+    }
+
+    public void removeVertex(Vertex vet) {
+        if (!adjList.containsKey(vet))
+            return;
+        adjList.remove(vet);
+        for (List<Vertex> list : adjList.values()) {
+            list.remove(vet);
+        }
+    }
+
+    public void print() {
+        for (Map.Entry<Vertex, List<Vertex>> pair : adjList.entrySet()) {
+            List<Integer> tmp = new ArrayList<>();
+            for (Vertex vertex : pair.getValue())
+                tmp.add(vertex.val);
+            System.out.println(pair.getKey().val + ": " + tmp + ",");
+        }
+    }
+
+    public static void main(String[] args) {
+        Vertex v0 = new Vertex(0);
+        Vertex v1 = new Vertex(1);
+        Vertex v2 = new Vertex(2);
+        Vertex v3 = new Vertex(3);
+        Vertex[][] edges = {
+                {v0, v1},
+                {v1, v2},
+                {v2, v3},
+                {v3, v0}
+        };
+        GraphAdjList graph = new GraphAdjList(edges);
+        graph.print();
+//        1: [0, 2],
+//        3: [2, 0],
+//        2: [1, 3],
+//        0: [1, 3],
+    }
+}
 ```
