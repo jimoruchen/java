@@ -1,11 +1,10 @@
-# **leetcode**  
+# leetcode 
 
-## **1.两数之和**  
-### **题目**
+## 1.两数之和  
+### 题目
 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出和为目标值 target 的那两个整数，并返回它们的数组下标。
 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
 你可以按任意顺序返回答案。
-
 
 * 示例1：  
 >输入：nums = [2,7,11,15], target = 9    
@@ -22,7 +21,7 @@
 >输入：nums = [3,3], target = 6  
 >输出：[0,1]  
 
-### **代码**  
+### 代码 
 * 返回一对数组中满足target的值的下标
 ```java
 public class Solution1 {
@@ -48,7 +47,6 @@ public class Solution2 {
     public List<int[]> twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();
         List<int[]> result = new ArrayList<>();
-
         for (int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
             if (map.containsKey(complement)) {
@@ -63,22 +61,18 @@ public class Solution2 {
     }
 }
 ```
-
 同上，但是将所有满足条件的下标对加入到List中
-
 
 <hr>
 
-
-## **2.两数相加**
-### **题目**
+## 2.两数相加
+### 题目
 给你两个非空的链表，表示两个非负的整数。它们每位数字都是按照逆序的方式存储的，并且每个节点只能存储一位数字。
 请你将两个数相加，并以相同形式返回一个表示和的链表。你可以假设除了数字0之外，
 这两个数都不会以0开头。
 
 * 示例1：    
 <img  style="height: 250px;width: 300px" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2021/01/02/addtwonumber1.jpg">    
-
 
 > 输入：l1 = [2,4,3], l2 = [5,6,4]  
 >输出：[7,0,8]  
@@ -94,7 +88,7 @@ public class Solution2 {
 >输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]  
 >输出：[8,9,9,9,0,0,0,1]
 
-### **代码**
+### 代码
 
 ```java
 class Solution {
@@ -124,11 +118,10 @@ class Solution {
 从个位开始，将加起来的值取余后放在节点中，除10后进位。  
 当l1和l2长度不相等时，最后将carry除10后再新建节点并加载链表尾端。
 
-
 <hr>  
 
-## **3.无重复的最长子串**
-### **题目**
+## 3.无重复的最长子串
+### 题目
 给定一个字符串s，请你找出其中不含有重复字符的最长子串的长度。
 
 * 示例1：    
@@ -150,7 +143,7 @@ class Solution {
 >解释: 因为无重复字符的最长子串是"wke"，所以其长度为3。 
 请注意，你的答案必须是子串的长度，"pwke"是一个子序列，不是子串。
 
-### **代码**  
+### 代码  
 
 ```java
 class Solution {
@@ -176,8 +169,8 @@ class Solution {
 
 <hr> 
 
-## **189.轮转数组**
-### **题目**
+## 189.轮转数组
+### 题目
 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
 
 * 示例1：
@@ -186,7 +179,7 @@ class Solution {
 >输出: [5,6,7,1,2,3,4]  
 >解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
 
-### **代码**
+### 代码
 
 ```java
 class Solution {
@@ -207,3 +200,42 @@ class Solution {
 记住最后将临时数组写回原数组。
 
 <hr>
+
+## 66.加一
+### 题目
+给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+你可以假设除了整数 0 之外，这个整数不会以零开头。
+
+* 示例1：
+>输入：digits = [1,2,3]     
+>输出：[1,2,4]  
+>解释：输入数组表示数字 123。
+
+* 示例2：
+>输入：digits = [4,3,2,1]   
+>输出：[4,3,2,2]
+>解释：输入数组表示数字 4321。
+
+* 示例3：
+>输入：digits = [9]
+>输出：[1,0]
+>解释：输入数组表示数字 9。加 1 得到了 9 + 1 = 10。因此，结果应该是 [1,0]。
+
+## 代码
+```java  
+public class Solution {
+    public int[] plusOne(int[] digits) {
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (digits[i] < 9) {
+                digits[i]++;
+                return digits;
+            }
+            digits[i] = 0;
+        }
+        int[] newDigits = new int[digits.length + 1];
+        newDigits[0] = 1;
+        return newDigits;
+    }
+}
+```
