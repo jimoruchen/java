@@ -48,9 +48,14 @@ public class Test {
 ```
 
 ## 4.常用方法
-* `for (int i = 0; i < numStr.length(); i++) 
+* charAt(i)读取字符串第i个元素
+`for (int i = 0; i < numStr.length(); i++) 
      result[i] = numStr.charAt(i) - '0';`  
-charAt(i)读取字符串第i个元素
+
+* 对数组求和
+```java
+int count = Arrays.stream(nums).sum();
+```
 
 * 将数字数组转为数字
 ```java

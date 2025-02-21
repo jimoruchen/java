@@ -169,39 +169,60 @@ class Solution {
 
 <hr> 
 
-## 189.轮转数组
-### 题目
-给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+## 15. 三数之和
+### **题目**
+给你一个整数数组nums，判断是否存在三元组[nums[i], nums[j], nums[k]]满足i != j、i != k、j != k，
+同时还满足nums[i] + nums[j] + nums[k] == 0。请你返回所有和为0且不重复的三元组。
 
 * 示例1：
+>输入：nums = [-1,0,1,2,-1,-4]      
+>输出：[[-1,-1,2],[-1,0,1]]  
+>解释：
+nums[0] + nums[1] + nums[2] = (-1) + 0 + 1 = 0 。
+nums[1] + nums[2] + nums[4] = 0 + 1 + (-1) = 0 。
+nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
+不同的三元组是 [-1,0,1] 和 [-1,-1,2] 。
+注意，输出的顺序和三元组的顺序并不重要。
+* 示例2：
+>输入:nums = [0,1,1]
+>输出:[]
+>解释:唯一可能的三元组和不为 0 。
+* 示例3：
+>输入：nums = [0,0,0]    
+>输出：[[0,0,0]]
+>解释：唯一可能的三元组和为 0 。
 
->输入: nums = [1,2,3,4,5,6,7], k = 3  
->输出: [5,6,7,1,2,3,4]  
->解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
-
-### 代码
-
+## 代码
 ```java
-class Solution {
-    public void rotate(int[] nums, int k) {
-        int length = nums.length;
-        k = k % length;
-        int[] nums1 = new int[length];
-        for (int i = 0; i < k; i++) {
-            nums1[i] = nums[length - k + i] ;
+public class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        int len = nums.length;
+        Arrays.sort(nums);
+        for (int i = 0; i < len; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])  continue;
+            int target = -nums[i];
+            for (int j = i + 1; j < len; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+                int k = len - 1;
+                while (j < k && nums[j] + nums[k] > target)
+                    k--;
+                if (j == k)
+                    break;
+                if (nums[j] + nums[k] == target) {
+                    List<Integer> ans = new ArrayList<>(Arrays.asList(nums[i], nums[j], nums[k]));
+                    res.add(ans);
+                }
+            }
         }
-        for (int j = k; j < length; j++) {
-            nums1[j] = nums[j - k];
-        }
-        System.arraycopy(nums1, 0, nums, 0, length);
+        return res;
     }
 }
 ```
-记住最后将临时数组写回原数组。
 
 <hr>
 
-## 66.加一
+## 66. 加一
 ### 题目
 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
@@ -239,3 +260,109 @@ public class Solution {
     }
 }
 ```
+
+<hr>
+
+## 189. 轮转数组
+### 题目
+给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+
+* 示例1：
+
+>输入: nums = [1,2,3,4,5,6,7], k = 3  
+>输出: [5,6,7,1,2,3,4]  
+>解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
+
+### 代码
+
+```java
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int length = nums.length;
+        k = k % length;
+        int[] nums1 = new int[length];
+        for (int i = 0; i < k; i++) {
+            nums1[i] = nums[length - k + i] ;
+        }
+        for (int j = k; j < length; j++) {
+            nums1[j] = nums[j - k];
+        }
+        System.arraycopy(nums1, 0, nums, 0, length);
+    }
+}
+```
+记住最后将临时数组写回原数组。
+
+<hr>
+
+## 724.寻找数组的中心下标
+### 题目
+给你一个整数数组 nums ，请计算数组的 中心下标 。
+数组 中心下标 是数组的一个下标，其左侧所有元素相加的和等于右侧所有元素相加的和。
+如果中心下标位于数组最左端，那么左侧数之和视为 0 ，因为在下标的左侧不存在元素。这一点对于中心下标位于数组最右端同样适用。
+如果数组有多个中心下标，应该返回 最靠近左边 的那一个。如果数组不存在中心下标，返回 -1 。
+
+* 示例1：
+>输入：nums = [1, 7, 3, 6, 5, 6]     
+>输出：3
+>解释：
+中心下标是 3 。
+左侧数之和 sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11 ，
+右侧数之和 sum = nums[4] + nums[5] = 5 + 6 = 11 ，二者相等。
+
+* 示例2：
+>输入：nums = [1, 2, 3] 
+>输出：-1
+>解释：数组中不存在满足此条件的中心下标。
+
+* 示例3：
+>输入：nums = [2, 1, -1]
+>输出：0
+>解释：
+中心下标是 0 。
+左侧数之和 sum = 0 ，（下标 0 左侧不存在元素），
+右侧数之和 sum = nums[1] + nums[2] = 1 + -1 = 0 。
+
+## 代码
+```java  
+class Solution {
+    public int pivotIndex(int[] nums) {
+        Queue<Integer> queue = new LinkedList<>();
+        int len = nums.length;
+        int count = 0;
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                ans += nums[j];
+            }
+            if (count == ans)
+                queue.offer(i);
+            ans = 0;
+            count += nums[i];
+        }
+        if (!queue.isEmpty())
+            return queue.poll();
+        else
+            return -1;
+    }
+}
+```
+暴力解法
+
+```java
+public class Solution {
+    public int pivotIndex(int[] nums) {
+        int count = Arrays.stream(nums).sum();
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (2 * ans == count - nums[i])
+                return i;
+            ans += nums[i];
+        }
+        return -1;
+    }
+}
+```
+使用前缀和，左侧和为 sum，右侧和为 total - sum - nums[i]。
+如果左侧和等于右侧和，则有 sum == total - sum - nums[i]，整理后得到 2 * sum + nums[i] == total。
+

@@ -222,39 +222,7 @@ public class Solution {
 
 <hr>
 
-## 189.轮转数组
-### 题目
-给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
-
-* 示例1：
-
->输入: nums = [1,2,3,4,5,6,7], k = 3  
->输出: [5,6,7,1,2,3,4]  
->解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
-
-### 代码
-
-```java
-class Solution {
-    public void rotate(int[] nums, int k) {
-        int length = nums.length;
-        k = k % length;
-        int[] nums1 = new int[length];
-        for (int i = 0; i < k; i++) {
-            nums1[i] = nums[length - k + i] ;
-        }
-        for (int j = k; j < length; j++) {
-            nums1[j] = nums[j - k];
-        }
-        System.arraycopy(nums1, 0, nums, 0, length);
-    }
-}
-```
-记住最后将临时数组写回原数组。
-
-<hr>
-
-## 66.加一
+## 66. 加一
 ### 题目
 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
 最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
@@ -292,3 +260,189 @@ public class Solution {
     }
 }
 ```
+
+<hr>
+
+## 189. 轮转数组
+### 题目
+给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
+
+* 示例1：
+
+>输入: nums = [1,2,3,4,5,6,7], k = 3  
+>输出: [5,6,7,1,2,3,4]  
+>解释: 向右轮转 1 步: [7,1,2,3,4,5,6]，向右轮转 2 步: [6,7,1,2,3,4,5]，向右轮转 3 步: [5,6,7,1,2,3,4]
+
+### 代码
+
+```java
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int length = nums.length;
+        k = k % length;
+        int[] nums1 = new int[length];
+        for (int i = 0; i < k; i++) {
+            nums1[i] = nums[length - k + i] ;
+        }
+        for (int j = k; j < length; j++) {
+            nums1[j] = nums[j - k];
+        }
+        System.arraycopy(nums1, 0, nums, 0, length);
+    }
+}
+```
+记住最后将临时数组写回原数组。
+
+<hr>
+
+## 238. 除自身以外数组的乘积
+### **题目**
+给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
+请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
+
+* 示例1：
+>输入：nums = [1,2,3,4]
+>输出：[24,12,8,6]
+
+* 示例2：
+>输入：nums = [-1,1,0,-3,3]
+>输出：[0,0,9,0,0]
+
+## 代码
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int tmp = 1;
+        int[] ans = new int[nums.length];
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0)
+                left[i] = left[i - 1] * nums[i - 1];
+            else
+                left[i] = tmp;
+        }
+        for (int j = nums.length - 1; j >= 0; j--) {
+            if (j < nums.length - 1)
+                right[j] = right[j + 1] * nums[j + 1];
+            else
+                right[j] = tmp;
+        }
+        for (int k = 0; k < nums.length; k++) {
+            ans[k] = left[k] * right[k];
+        }
+        return ans;
+    }
+}
+```
+由于时间复杂度为O(n)，所以不能使用双重循环。
+<hr>
+
+## 485. 最大连续 1 的个数
+### **题目**
+给定一个二进制数组 nums ， 计算其中最大连续 1 的个数。
+
+* 示例1：
+>输入：nums = [1,1,0,1,1,1]
+>输出：3
+>解释：开头的两位和最后的三位都是连续 1 ，所以最大连续 1 的个数是 3.
+
+* 示例2：
+>输入：nums = [1,0,1,1,0,1]
+>输出：2
+
+## 代码
+```java  
+public class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int maxCount = 0;
+        int count = 0;
+        for (int num : nums) {
+            if (num == 1) {
+                count++;
+            } else {
+                maxCount = Math.max(maxCount, count);
+                count = 0;
+            }
+        }
+        maxCount = Math.max(maxCount, count);
+        return maxCount;
+    }
+}
+```
+
+<hr>
+
+
+## 724.寻找数组的中心下标
+### 题目
+给你一个整数数组 nums ，请计算数组的 中心下标 。
+数组 中心下标 是数组的一个下标，其左侧所有元素相加的和等于右侧所有元素相加的和。
+如果中心下标位于数组最左端，那么左侧数之和视为 0 ，因为在下标的左侧不存在元素。这一点对于中心下标位于数组最右端同样适用。
+如果数组有多个中心下标，应该返回 最靠近左边 的那一个。如果数组不存在中心下标，返回 -1 。
+
+* 示例1：
+>输入：nums = [1, 7, 3, 6, 5, 6]     
+>输出：3
+>解释：
+中心下标是 3 。
+左侧数之和 sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11 ，
+右侧数之和 sum = nums[4] + nums[5] = 5 + 6 = 11 ，二者相等。
+
+* 示例2：
+>输入：nums = [1, 2, 3] 
+>输出：-1
+>解释：数组中不存在满足此条件的中心下标。
+
+* 示例3：
+>输入：nums = [2, 1, -1]
+>输出：0
+>解释：
+中心下标是 0 。
+左侧数之和 sum = 0 ，（下标 0 左侧不存在元素），
+右侧数之和 sum = nums[1] + nums[2] = 1 + -1 = 0 。
+
+## 代码
+```java  
+class Solution {
+    public int pivotIndex(int[] nums) {
+        Queue<Integer> queue = new LinkedList<>();
+        int len = nums.length;
+        int count = 0;
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                ans += nums[j];
+            }
+            if (count == ans)
+                queue.offer(i);
+            ans = 0;
+            count += nums[i];
+        }
+        if (!queue.isEmpty())
+            return queue.poll();
+        else
+            return -1;
+    }
+}
+```
+暴力解法
+
+```java
+public class Solution {
+    public int pivotIndex(int[] nums) {
+        int count = Arrays.stream(nums).sum();
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (2 * ans == count - nums[i])
+                return i;
+            ans += nums[i];
+        }
+        return -1;
+    }
+}
+```
+使用前缀和，左侧和为 sum，右侧和为 total - sum - nums[i]。
+如果左侧和等于右侧和，则有 sum == total - sum - nums[i]，整理后得到 2 * sum + nums[i] == total。
+
