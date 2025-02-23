@@ -295,6 +295,86 @@ class Solution {
 
 <hr>
 
+## 238. 除自身以外数组的乘积
+### **题目**
+给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
+题目数据 保证 数组 nums之中任意元素的全部前缀元素和后缀的乘积都在  32 位 整数范围内。
+请 不要使用除法，且在 O(n) 时间复杂度内完成此题。
+
+* 示例1：
+>输入：nums = [1,2,3,4]
+>输出：[24,12,8,6]
+
+* 示例2：
+>输入：nums = [-1,1,0,-3,3]
+>输出：[0,0,9,0,0]
+
+## 代码
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int tmp = 1;
+        int[] ans = new int[nums.length];
+        int[] left = new int[nums.length];
+        int[] right = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0)
+                left[i] = left[i - 1] * nums[i - 1];
+            else
+                left[i] = tmp;
+        }
+        for (int j = nums.length - 1; j >= 0; j--) {
+            if (j < nums.length - 1)
+                right[j] = right[j + 1] * nums[j + 1];
+            else
+                right[j] = tmp;
+        }
+        for (int k = 0; k < nums.length; k++) {
+            ans[k] = left[k] * right[k];
+        }
+        return ans;
+    }
+}
+```
+由于时间复杂度为O(n)，所以不能使用双重循环。
+<hr>
+
+## 485. 最大连续 1 的个数
+### **题目**
+给定一个二进制数组 nums ， 计算其中最大连续 1 的个数。
+
+* 示例1：
+>输入：nums = [1,1,0,1,1,1]
+>输出：3
+>解释：开头的两位和最后的三位都是连续 1 ，所以最大连续 1 的个数是 3.
+
+* 示例2：
+>输入：nums = [1,0,1,1,0,1]
+>输出：2
+
+## 代码
+```java  
+public class Solution {
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int maxCount = 0;
+        int count = 0;
+        for (int num : nums) {
+            if (num == 1) {
+                count++;
+            } else {
+                maxCount = Math.max(maxCount, count);
+                count = 0;
+            }
+        }
+        maxCount = Math.max(maxCount, count);
+        return maxCount;
+    }
+}
+```
+
+<hr>
+
+
 ## 724.寻找数组的中心下标
 ### 题目
 给你一个整数数组 nums ，请计算数组的 中心下标 。

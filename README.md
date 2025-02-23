@@ -374,6 +374,68 @@ public class Solution {
 
 <hr>
 
+## 498. 对角线遍历
+### **题目**
+给你一个大小为 m x n 的矩阵 mat ，请以对角线遍历的顺序，用一个数组返回这个矩阵中的所有元素。
+
+* 示例1：  
+  <a href="https://smms.app/image/qWUy9ncoXD6Qi51" target="_blank">
+  <img src="https://s2.loli.net/2025/02/23/qWUy9ncoXD6Qi51.png" alt="image.png" style="width:300px; height:300px;">
+  </a>
+
+>输入：mat = [[1,2,3],[4,5,6],[7,8,9]]
+>输出：[1,2,4,7,5,3,6,8,9]
+* 示例2：
+>输入：mat = [[1,2],[3,4]]
+>输出：[1,2,3,4]
+## 代码
+```java  
+class Solution {  
+    public int[] findDiagonalOrder(int[][] matrix) {  
+        if (matrix == null || matrix.length == 0) return new int[0];  
+        int m = matrix.length, n = matrix[0].length;  
+        int[] result = new int[m * n];  
+        int row = 0, col = 0, direction = 0;  
+        int index = 0;  
+        while (index < m * n) {  
+            result[index++] = matrix[row][col];  
+            if (direction == 0) { // Up-right direction  
+                if (col == n - 1) {  
+                    row++;  
+                    direction = 1;  
+                } else if (row == 0) {  
+                    col++;  
+                    direction = 1;  
+                } else {  
+                    row--;  
+                    col++;  
+                }  
+            } else { // Down-left direction  
+                if (row == m - 1) {  
+                    col++;  
+                    direction = 0;  
+                } else if (col == 0) {  
+                    row++;  
+                    direction = 0;  
+                } else {  
+                    row++;  
+                    col--;  
+                }  
+            }  
+        }  
+        return result;  
+    }  
+    //1 2  3  4  
+    //5 6  7  8    
+    //9 10 11 12    
+    //13 14 15 16  
+}
+```
+Up-right direction = 0为下一步向右上方，例如从1到2，此时col++。当direction=0，矩阵为3 * 3，例如从3到7，
+此时col = n - 1，则row应该++。若col = n - 1，但此时direction = 1，例如从4到7，此时row++，col--。
+Down-left direction = 1与上同理。
+
+<hr>
 
 ## 724.寻找数组的中心下标
 ### 题目
