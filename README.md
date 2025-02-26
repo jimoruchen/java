@@ -343,6 +343,87 @@ class Solution {
 
 <hr>
 
+## 59. 螺旋矩阵 II
+### **题目**
+给你一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
+
+* 示例1：  
+  <img src="https://s2.loli.net/2025/02/25/mbMFInQLeGkPUxK.png"  style="height: 500px; width: 500px">
+>输入：n = 3
+>输出：[1,2,3,6,9,8,7,4,5]
+
+* 示例2：
+>输入: n = 1
+>输出: [[1]]
+## 代码
+- 按层模拟
+```java  
+class Solution {  
+    public int[][] generateMatrix(int n) {  
+        int[] nums = new int[n * n];  
+        int[][] matrix = new int[n][n];  
+        for (int i = 0; i < n * n; i++)  
+            nums[i] = i + 1;  
+        int index = 0;  
+        int top = 0, left = 0;  
+        int bottom = n - 1, right = n - 1;  
+        while (left <= right && top <= bottom) {  
+            for (int i = left; i <= right; i++) {  
+                matrix[top][i] = nums[index++];  
+            }  
+            top++;  
+            for (int i = top; i <= bottom; i++) {  
+                matrix[i][right] = nums[index++];  
+            }  
+            right--;  
+            if (left <= right && top <= bottom) {  
+                for (int i = right; i >= left; i--) {  
+                    matrix[bottom][i] = nums[index++];  
+                }  
+                bottom--;  
+                for (int i = bottom; i >= top; i--) {  
+                    matrix[i][left] = nums[index++];  
+                }  
+                left++;  
+            }  
+        }  
+        return matrix;  
+    }  
+}
+```
+如leetcode54
+
+- 模拟
+```java  
+class Solution {  
+	public int[][] generateMatrix(int n) {  
+	    int[] nums = new int[n * n];  
+	    int[][] matrix = new int[n][n];  
+	    for (int i = 0; i < n * n; i++)  
+	        nums[i] = i + 1;  
+	    int index = 0, total = n * n;  
+	    int row = 0, col = 0;  
+	    boolean[][] visited = new boolean[n][n];  
+	    int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  
+	    for (int i = 0; i < total; i++) {  
+	        matrix[row][col] = nums[i];  
+	        visited[row][col] = true;  
+	        int nextRow = row + directions[index][0], nextCol = col + directions[index][1];  
+	        if (nextRow < 0 || nextRow >= n || nextCol < 0 || nextCol >= n || visited[nextRow][nextCol]) {  
+	            index = (index + 1) % 4;  
+	        }  
+	        row += directions[index][0];  
+	        col += directions[index][1];  
+	    }  
+	    return matrix;  
+	}
+}
+```
+设定一个方向二位数组，分别表示向右，向下，向左，向上，从(0, 0)开始，逐次向右，每次计算nextRow和nextCol，
+判断是否越界和是否访问过，是则index++并且对4取余，然后row和col变换后进入下一次循环。
+
+<hr>
+
 ## 66. 加一
 ### 题目
 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
@@ -384,7 +465,7 @@ public class Solution {
 
 ## 73. 矩阵置零
 ### **题目**
-给定一个 `_m_ x _n_` 的矩阵，如果一个元素为 **0** ，则将其所在行和列的所有元素都设为 **0** 。请使用原地算法。
+给定一个m * n的矩阵，如果一个元素为0，则将其所在行和列的所有元素都设为0。请使用原地算法。
 
 * 示例1
   <img src="https://s2.loli.net/2025/02/24/lQtwrvN63Ds8kAJ.png" >
@@ -393,8 +474,8 @@ public class Solution {
 
 * 示例2  
   <img src="https://s2.loli.net/2025/02/24/kTX7a6gvs9f5RuB.png" >
->输入: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
->输出: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+>输入:matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+>输出:[[0,0,0,0],[0,4,5,0],[0,3,1,0]]
 ## 代码
 - 暴力解法：
 ```java  

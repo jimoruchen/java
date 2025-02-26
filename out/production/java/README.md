@@ -222,6 +222,127 @@ public class Solution {
 
 <hr>
 
+## 48. 旋转图像
+### **题目**
+给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
+你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
+
+* 示例1：  
+  <img src="https://s2.loli.net/2025/02/24/eFHWQO2RvoCuM9E.png" >
+>输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+>输出：[[7,4,1],[8,5,2],[9,6,3]]
+
+* 示例2：  
+  <img src="https://s2.loli.net/2025/02/24/eFHWQO2RvoCuM9E.png" >
+>输入: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+>输出: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+## 代码
+```java  
+class Solution {  
+    public void rotate(int[][] matrix) {  
+        int m = matrix.length, n = matrix[0].length;  
+        int[] ans = new int[m * n];  
+        int k = 0;  
+        for (int i = m - 1; i >= 0; i--) {  
+            for (int j = 0; j < n; j++) {  
+                ans[k++] = matrix[i][j];  
+            }  
+        }  
+        k = 0;  
+        for (int i = 0; i < n; i++) {  
+            for (int j = 0; j < m; j++) {  
+                matrix[j][i] = ans[k++];  
+            }  
+        }  
+        //1 2 3    7 4 1  
+        //4 5 6    8 5 2        
+        //7 8 9    9 6 3    
+    }  
+}
+```
+先将数组按照从最后一行到第一行写入数组，再将数组按照先列后行写入原数组。
+
+<hr>
+
+## 54. 螺旋矩阵
+### **题目**
+给你一个m行n列的矩阵matrix，请按照**顺时针螺旋顺序**，返回矩阵中的所有元素。
+
+* 示例1：  
+  <img src="https://s2.loli.net/2025/02/25/mbMFInQLeGkPUxK.png"  style="height: 500px; width: 500px">
+>输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+>输出：[1,2,3,6,9,8,7,4,5]
+
+* 示例2：  
+  <img src="https://s2.loli.net/2025/02/25/938oRndGmCxFDvE.png"  style="height: 500px; width: 600px">
+>输入: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+>输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+## 代码
+- 按层模拟
+```java  
+class Solution {  
+    public List<Integer> spiralOrder(int[][] matrix) {  
+        List<Integer> res = new ArrayList<>();  
+        int m = matrix.length, n = matrix[0].length;  
+        int top = 0, left = 0;  
+        int bottom = m -1, right = n - 1;  
+        while (top <= bottom && left <= right) {  
+            for (int j = left; j <= right; j++)  
+                res.add(matrix[top][j]);  
+            top++;  
+            for (int i = top; i <= bottom; i++)  
+                res.add(matrix[i][right]);  
+            right--;  
+            if (left <= right && top <= bottom) {  
+                for (int j = right; j >= left; j--)  
+                    res.add(matrix[bottom][j]);  
+                bottom--;  
+                for (int i = bottom; i >= top; i--)  
+                    res.add(matrix[i][left]);  
+                left++;  
+            }  
+        }  
+        return res;  
+        //1  2  3  4  
+        //5  6  7  8        
+        //9  10 11 12        
+        //13 14 15 16    
+    }  
+}
+```
+设置四个边界top, bottom, left, right，从左到右：(top, left)到(top, right)，然后top++表示进入下一层，当前已遍历1，2，3，4；从上到下：(top, right)到(bottom, right)，然后right++，当前已遍历8，12，16；由于top和right已更新，判断是否越过边界。从右到左：(bottom, right)到(bottom, left)，然后bottom--，当前已遍历15，14，13；从下到上：(bottom, left)到(top, left)，然后left++，当前已遍历9，4。
+
+- 模拟
+```java  
+class Solution {  
+    public List<Integer> spiralOrder(int[][] matrix) {  
+        List<Integer> res = new ArrayList<Integer>();  
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0)  
+            return res;  
+        int m = matrix.length, n = matrix[0].length;  
+        boolean[][] visited = new boolean[m][n];  
+        int row = 0, col = 0;  
+        int total = m * n;  
+        int index = 0;  
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};  
+        for (int i = 0; i < total; i++) {  
+            res.add(matrix[row][col]);  
+            visited[row][col] = true;  
+            int nextRow = row + directions[index][0], nextCol = col + directions[index][1];  
+            if (nextRow < 0 || nextRow >= m || nextCol < 0 || nextCol >= n || visited[nextRow][nextCol]) {  
+                index = (index + 1) % 4;  
+            }  
+            row += directions[index][0];  
+            col += directions[index][1];  
+        }  
+        return res;  
+    }  
+}
+```
+设定一个方向二位数组，分别表示向右，向下，向左，向上，从(0, 0)开始，逐次向右，每次计算nextRow和nextCol，判断是否越界和是否访问过，是则index++并且对4取余，然后row和col变换后进入下一次循环。
+
+<hr>
+
 ## 66. 加一
 ### 题目
 给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
@@ -265,6 +386,73 @@ public class Solution {
 ### **题目**
 给定一个 `_m_ x _n_` 的矩阵，如果一个元素为 **0** ，则将其所在行和列的所有元素都设为 **0** 。请使用原地算法。
 
+* 示例1
+  <img src="https://s2.loli.net/2025/02/24/lQtwrvN63Ds8kAJ.png" >
+>输入：matrix = [[1,1,1],[1,0,1],[1,1,1]]
+>输出：[[1,0,1],[0,0,0],[1,0,1]]
+
+* 示例2  
+  <img src="https://s2.loli.net/2025/02/24/kTX7a6gvs9f5RuB.png" >
+>输入: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+>输出: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+## 代码
+- 暴力解法：
+```java  
+class Solution {  
+    public void setZeroes(int[][] matrix) {  
+        int m = matrix.length, n = matrix[0].length;  
+        int[][] ans = new int[m][n];  
+        for (int i = 0; i < m; i++) {  
+            for (int j = 0; j < n; j++) {  
+                ans[i][j] = matrix[i][j];  
+            }  
+        }  
+        for (int i = 0; i < m; i++) {  
+            for (int j = 0; j < n; j++) {  
+                if (ans[i][j] == 0) {  
+                    for (int k = 0; k < m; k++) {  
+                        matrix[k][j] = 0;  
+                    }  
+                    for (int k = 0; k < n; k++) {  
+                        matrix[i][k] = 0;  
+                    }  
+                }  
+            }  
+        }  
+    }  
+}
+```
+
+- 使用记录数组：
+```java
+public class Solution {  
+    public void setZeroes(int[][] matrix) {  
+        int m = matrix.length, n = matrix[0].length;  
+        boolean[] row = new boolean[m];  
+        boolean[] col = new boolean[n];  
+        for (int i = 0; i < m; i++) {  
+            for (int j = 0; j < n; j++) {  
+                if (matrix[i][j] == 0) {  
+                    row[i] = col[j] = true;  
+                }  
+            }  
+        }  
+        for (int i = 0; i < m; i++) {  
+            for (int j = 0; j < n; j++) {  
+                if (row[i] || col[j]) {  
+                    matrix[i][j] = 0;  
+                }  
+            }  
+        }  
+    }  
+}
+```
+
+<hr>
+
+## 73. 矩阵置零
+### **题目**
+给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。
 * 示例1
   <img src="https://s2.loli.net/2025/02/24/lQtwrvN63Ds8kAJ.png" >
 >输入：matrix = [[1,1,1],[1,0,1],[1,1,1]]
