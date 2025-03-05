@@ -672,6 +672,79 @@ class Solution {
 }
 ```
 由于时间复杂度为O(n)，所以不能使用双重循环。
+
+<hr>
+
+## 289. 生命游戏
+### **题目**
+给定一个包含m * n个格子的面板，每一个格子都可以看成是一个细胞。每个细胞都具有一个初始状态：1即为活细胞（live），或0即为死细胞dead）。每个细胞与其八个相邻位置（水平，垂直，对角线）的细胞都遵循以下四条生存定律：
+1. 如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+2. 如果活细胞周围八个位置有两个或三个活细胞，则该位置活细胞仍然存活；
+3. 如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+4. 如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+   下一个状态是通过将上述规则同时应用于当前状态下的每个细胞所形成的，其中细胞的出生和死亡是同时发生的。给你m * n网格面板board的当前状态，返回下一个状态。
+
+给定当前board的状态，更新board到下一个状态。
+
+注意你不需要返回任何东西。
+
+* 示例1：  
+  <img src="https://s2.loli.net/2025/03/05/FZ1nx9yDXpTlEce.png" >
+>输入：board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]
+>输出：[[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+
+* 示例2：  
+  <img src="https://s2.loli.net/2025/03/05/XJynrxhP7ICjAEg.png" >
+>输入：board = [[1,1],[1,0]]
+>输出：[[1,1],[1,1]]
+
+## 代码
+```java
+class Solution {  
+    public void gameOfLife(int[][] board) {  
+        int m = board.length, n = board[0].length;  
+        int tmp = 0;  
+        int[][] newBoard = new int[m][n];  
+        int[][] directions = {{-1, -1}, {0, -1}, {-1, 0}, {0, 1}, {1, 0}, {1, 1}, {-1, 1}, {1, -1}};  
+        for (int i = 0; i < m; i++) {  
+            for (int j = 0; j < n; j++) {  
+                newBoard[i][j] = board[i][j];  
+            }  
+        }  
+        for (int i = 0; i < newBoard.length; i++) {  
+            for (int j = 0; j < newBoard[0].length; j++) {  
+                if (newBoard[i][j] == 1) {  
+                    for (int[] direction : directions) {  
+                        int x = i + direction[0];  
+                        int y = j + direction[1];  
+                        if (x < 0 || y < 0 || x >= m || y >= n)  
+                            continue;  
+                        if (newBoard[x][y] == 1)  
+                            tmp++;  
+                    }  
+                    if (tmp < 2 || tmp >3)  
+                        board[i][j] = 0;  
+                    tmp = 0;  
+                } else {  
+                    for (int[] direction : directions) {  
+                        int x = i + direction[0];  
+                        int y = j + direction[1];  
+                        if (x < 0 || y < 0 || x >= m || y >= n)  
+                            continue;  
+                        if (newBoard[x][y] == 1)  
+                            tmp++;  
+                    }  
+                    if (tmp == 3)  
+                        board[i][j] = 1;  
+                    tmp = 0;  
+                }  
+            }  
+        }  
+    }  
+}
+```
+给定一个方向数组，首先遍历矩阵中每一个元素，对于每个元素通过方向数组判断它周围的8个元素。
+
 <hr>
 
 ## 485. 最大连续 1 的个数
