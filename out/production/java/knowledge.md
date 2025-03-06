@@ -1,4 +1,27 @@
-## 1.列表排序
+## 1.排序
+* 使用 Arrays.sort() 方法
+用于对数组进行排序，支持基本数据类型和对象类型的数组，但对于基本数据类型数组（如 int[]）不支持使用自定义比较器。
+```java
+public class Test {
+    public static void main(String[] args) {
+        int[] nums = {1,2,3,4,5,6,7,8,9,10};
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums));
+    }
+}
+```
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        Integer[] nums = {1,2,3,4,5,6,7,8,9,10};
+        //Arrays.sort(nums, (x, y) -> y - x);
+        Arrays.sort(nums, (x, y) -> y.compareTo(x));
+        System.out.println(Arrays.toString(nums));
+    }
+}
+```
+
 * 使用 Collections.sort() 方法
 Collections.sort() 是一个静态方法，用于对实现了 List 接口并且其元素类型实现了 Comparable 接口的列表进行排序。
 ```java
@@ -18,7 +41,22 @@ public class SortExample {
 ```
 
 * 使用 List.sort() 方法
-  从Java 8开始，List接口直接提供了sort()方法，它同样要求列表中的元素是可比较的（实现Comparable接口），或者在调用时提供一个自定义的比较器（实现Comparator接口）。
+从Java 8开始，List接口直接提供了sort()方法，它同样要求列表中的元素是可比较的（实现Comparable接口），或者在调用时提供一个自定义的比较器（实现Comparator接口）。
+```java
+public class Test {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        //list.sort((x, y) -> y - x);
+        //list.sort((x, y) ->  y.compareTo(x));
+        list.sort(Comparator.reverseOrder());
+        System.out.println(list);
+    }
+}
+```
+
 ```java
 public class SortExample {
     public static void main(String[] args) {
