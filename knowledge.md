@@ -15,7 +15,7 @@ public class Test {
 public class Test {
     public static void main(String[] args) {
         Integer[] nums = {1,2,3,4,5,6,7,8,9,10};
-        //Arrays.sort(nums, (x, y) -> y - x);
+        //Arrays.sort(nums, (x, y) -> y - x);           //从大到小
         //Arrays.sort(nums, (x, y) -> y.compareTo(x));
         Arrays.sort(nums, Comparator.reverseOrder());
         System.out.println(Arrays.toString(nums));
@@ -64,9 +64,36 @@ public class SortExample {
         List<Person> list = new ArrayList<>();
         list.add(new Person("Alice", 30));
         list.add(new Person("Bob", 25));
-
         list.sort(Comparator.comparing(Person::getAge));
         System.out.println(list); // 按年龄升序输出Person对象
+    }
+}
+```
+
+* 冒泡排序
+```java
+public class BubbleSort {
+    public static void main(String[] args) {
+        int[] arr = {1, 4, 2, 3, 5};
+        bubbleSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public static void bubbleSort(int[] arr) {
+        int len = arr.length;
+        for (int i = 0; i < len - 1; i++) {
+            for (int j = 0; j < len - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j + 1);
+                }
+            }
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 }
 ```
