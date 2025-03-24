@@ -15,12 +15,12 @@
 
 ### **添加与提交**
    * 添加文件到暂存区:  
-   `git add test.txt`添加test.txt文件  
+   `git add DS.txt`添加test.txt文件  
    `git add .`添加所有文件
 
 
    * 提交到本地仓库:  
-   `git commit -m "test"`
+   `git commit -m "DS"`
 
 
    * 查看提交记录:  
@@ -53,9 +53,9 @@
 
 
    * 创建新分支:  
-   `git branch test`  
+   `git branch DS`  
    * 删除分支:  
-   `git branch -d test`
+   `git branch -d DS`
 
 
    * 添加文件后直接提交到到本地仓库:   
@@ -67,7 +67,7 @@
 
 #### **切换分支**
    * 切换分支:  
-   `git checkout test`  
+   `git checkout DS`  
    ![4.png](https://s2.loli.net/2024/04/15/cgI9XDLwiHkFrsf.png)
 
 <hr>  
@@ -78,7 +78,7 @@
 
 
    * 合并分支:  
-   `git merge test`  
+   `git merge DS`  
 
 
    * 发生冲突后：手动修改后再提交。  

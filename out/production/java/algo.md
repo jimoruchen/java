@@ -553,7 +553,7 @@ public class Main {
     public static void main(String[] args) {
         Integer[] numbers = new Integer[] {2, 1, 3, 4, 5};
         List<Integer> nums = new ArrayList<>(Arrays.asList(numbers));
-        Collections.sort(nums);
+        Collections.Sort(nums);
         for (int num : nums)
             System.out.println(num);
     }

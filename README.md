@@ -198,7 +198,7 @@ public class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         int len = nums.length;
-        Arrays.sort(nums);
+        Arrays.Sort(nums);
         for (int i = 0; i < len; i++) {
             if (i > 0 && nums[i] == nums[i - 1])  continue;
             int target = -nums[i];

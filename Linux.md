@@ -62,15 +62,15 @@
 
 * 创建目录：`mkdir study1`  
 
-* 复制上一级的文件到该目录下：`cp ../test student`  
+* 复制上一级的文件到该目录下：`cp ../DS student`  
 
 * 对整个目录进行复制：`cp -r study1 study1_copied`  
 
-* 移动文件：`mv test study2`  
+* 移动文件：`mv DS study2`  
 
 * 移动目录：`mv study1 study2`  
 
-* 移动文件实现改名：`mv test test1`  
+* 移动文件实现改名：`mv DS test1`  
 
 * 删除目录：`rm -r study1`  
 
@@ -86,7 +86,7 @@
 
 * 查看磁盘实体情况：`sudo fdisk -l`  
 
-* 挂载U盘到u-test目录下：`sudo mount dev/sdb1 u-test`  
+* 挂载U盘到u-test目录下：`sudo mount dev/sdb1 u-DS`  
 
 * 取消挂载：`sudo umount dev/sdb1`  
 
@@ -100,7 +100,7 @@
 
 * 立刻关机：`sudo shutdown now`  
 
-* 打包文件：`tar -zcvf test.tar.gz *.txt`  
+* 打包文件：`tar -zcvf DS.tar.gz *.txt`  
 -z表示以gzip格式进行操作，-c表示对文件进行压缩，-v可以在处理过程中输出一些日志信息，-f表示对普通文件进行操作  
 
-* 解压文件：`tar -zxvf test.tar.gz` -x表示进行解压操作
+* 解压文件：`tar -zxvf DS.tar.gz` -x表示进行解压操作
