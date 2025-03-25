@@ -23,12 +23,12 @@ public class QuickSort {
     }
 
     public static int partition(int[] arr, int left, int right) {
-        int privot = arr[left];
+        int pivot = arr[left];
         int l = left - 1;
         int r = right + 1;
         while (l < r) {
-            do l++; while (arr[l] < privot);
-            do r--; while (arr[r] > privot);
+            do l++; while (arr[l] < pivot);
+            do r--; while (arr[r] > pivot);
             if (l <r) {
                 int tmp = arr[l];
                 arr[l] = arr[r];

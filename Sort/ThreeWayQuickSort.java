@@ -14,14 +14,14 @@ public class ThreeWayQuickSort {
         if (nums == null || left < 0 || right > nums.length || left > right) {
             return;
         }
-        int privot = nums[left];
+        int pivot = nums[left];
         int low = left;
         int high = right;
         int i = low + 1;
         while (i <= high) {
-            if (nums[i] < privot) {
+            if (nums[i] < pivot) {
                 swap(nums, i++, low++);
-            } else if (nums[i] > privot) {
+            } else if (nums[i] > pivot) {
                 swap(nums, i, high--);
             } else {
                 i++;
