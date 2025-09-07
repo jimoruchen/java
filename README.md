@@ -1,4 +1,4 @@
-# leetcode 
+# leetcode237 
 
 ## 1.两数之和  
 ### 题目
@@ -72,7 +72,7 @@ public class Solution2 {
 这两个数都不会以0开头。
 
 * 示例1：    
-<img  style="height: 250px;width: 300px" src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2021/01/02/addtwonumber1.jpg">    
+<img  style="height: 250px;width: 300px" src="https://assets.leetcode237-cn.com/aliyun-lc-upload/uploads/2021/01/02/addtwonumber1.jpg">    
 
 > 输入：l1 = [2,4,3], l2 = [5,6,4]  
 >输出：[7,0,8]  
@@ -222,6 +222,236 @@ public class Solution {
 
 <hr>
 
+## 19. 删除链表的倒数第 N 个结点
+### **题目**
+给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。  
+
+* 示例1：
+>输入：head = [1,2,3,4,5], n = 2 
+>输出：[1,2,3,5]
+* 示例2：
+>输入：head = [1], n = 1
+>输出：[]
+
+### 代码
+```java
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(0, head);
+        ListNode prev = head;
+        ListNode cur = dummy;
+        int len = 0;
+        while (prev != null) {
+            prev = prev.next;
+            len++;
+        }
+        for (int i = 0; i < len - n; i++)
+            cur = cur.next;
+        cur.next = cur.next.next;
+        ListNode ans = dummy.next;
+        return ans;
+    }
+}
+```
+
+<hr>
+
+## 20. 有效的括号
+### **题目**
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+
+* 示例1：
+>输入：s = "()[]{}"
+>输出：true
+
+### 代码
+```java
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        int length = s.length();
+        if (length % 2 != 0) {
+            return false;
+        }
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < length; i++) {
+            if (chars[i] == '(') {
+                stack.push('(');
+            } else if (chars[i] == '[') {
+                stack.push('[');
+            } else if (chars[i] == '{') {
+                stack.push('{');
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                } else {
+                    Character pop = stack.peek();
+                    if (chars[i] == ')' && pop == '(' || chars[i] == ']' && pop == '[' || chars[i] == '}' && pop == '{') {
+                        stack.pop();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+```
+
+<hr>
+
+## 21. 合并两个有序链表
+### **题目**
+将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。  
+
+* 示例1：
+>输入：l1 = [1,2,4], l2 = [1,3,4]
+>输出：[1,1,2,3,4,4]
+* 示例2：
+>输入：l1 = [], l2 = []
+>输出：[]
+
+### 代码
+```java
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode p1 = list1, p2 = list2;
+        ListNode dummy = new ListNode(-1);
+        ListNode cur = dummy;
+        while (p1 != null && p2 != null) {
+            if (p1.val <= p2.val) {
+                cur.next = p1;
+                p1 = p1.next;
+            } else {
+                cur.next = p2;
+                p2 = p2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = (p1 == null) ? p2 : p1;
+        return dummy.next;
+    }
+}
+```
+```java
+public class Solution1 {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if (list1 == null) {
+            return list2;
+        } else if (list2 == null) {
+            return list1;
+        } else if (list1.val < list2.val) {
+            list1.next = mergeTwoLists(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoLists(list1, list2.next);
+            return list2;
+        }
+    }
+}
+```
+递归
+
+<hr>
+
+## 24. 两两交换链表中的节点
+### **题目**
+给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。  
+
+* 示例1：
+>输入：head = [1,2,3,4]
+>输出：[2,1,4,3]
+* 示例2：
+>输入：head = []
+>输出：[]
+
+## 代码
+```java
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummy = new ListNode(-1, head);
+        ListNode cur = dummy;
+        while (cur.next != null && cur.next.next != null) {
+            ListNode first = cur.next;
+            ListNode second = first.next;
+            ListNode third = second.next;
+            cur.next = second;
+            second.next = first;
+            first.next = third;
+            cur = first;
+        }
+        return dummy.next;
+    }
+}
+```
+
+<hr>
+
+## 26. 删除有序数组中的重复项
+### **题目**
+给你一个非严格递增排列的数组 nums ，请你原地删除重复出现的元素，使每个元素只出现一次，返回删除后数组的新长度。  
+元素的相对顺序应该保持一致 。然后返回nums中唯一元素的个数。
+
+* 示例1：
+>输入：nums = [1, 1, 2]    
+>输出：2, nums = [1, 2, _]  
+>解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
+* 示例2：
+>输入：nums = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+>输出：5, nums = [0, 1, 2, 3, 4]  
+>解释：函数应该返回新的长度 5 ，并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4 。不需要考虑数组中超出新长度后面的元素。
+
+## 代码
+```java
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+        int slow = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != nums[slow]) {
+                nums[++slow] = nums[i];
+            }
+        }
+        return slow + 1;
+    }
+}
+```
+
+<hr>
+
+## 27. 移除元素
+### **题目**
+给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素。元素的顺序可能发生改变。然后返回 nums 中与 val 不同的元素的数量。
+
+* 示例1：
+>输入：nums = [3, 2, 2, 3], val = 3   
+>输出：2, nums = [2, 2, _, _]
+>解释：你的函数函数应该返回 k = 2, 并且 nums 中的前两个元素均为 2。
+* 示例2：
+>输入：nums = [0, 1, 2, 2, 3, 0, 4, 2], val = 2
+>输出：5, nums = [0, 1, 4, 0, 3, _, _, _]
+>解释：你的函数应该返回 k = 5，并且 nums 中的前五个元素为 0,0,1,3,4。 注意这五个元素可以任意顺序返回。
+
+## 代码
+```java
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        if (nums == null || nums.length == 0)   return 0;
+        int left = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != val) {
+                nums[left] = nums[i];
+                left++;
+            }
+        }
+        return left;
+    }
+}
+```
+
+<hr>
+
 ## 48. 旋转图像
 ### **题目**
 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
@@ -234,8 +464,8 @@ public class Solution {
 
 * 示例2：  
   <img src="https://s2.loli.net/2025/02/24/eFHWQO2RvoCuM9E.png" >
->输入: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
->输出: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+>输入:matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+>输出:[[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 ## 代码
 ```java  
 class Solution {  
@@ -275,8 +505,8 @@ class Solution {
 
 * 示例2：  
   <img src="https://s2.loli.net/2025/02/25/938oRndGmCxFDvE.png"  style="height: 500px; width: 600px">
->输入: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
->输出: [1,2,3,4,8,12,11,10,9,5,6,7]
+>输入:matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+>输出:[1,2,3,4,8,12,11,10,9,5,6,7]
 ## 代码
 - 按层模拟
 ```java  
@@ -463,6 +693,69 @@ public class Solution {
 }
 ```
 
+<hr>
+
+## 71. 简化路径
+### **题目**
+给你一个字符串 path ，表示指向某一文件或目录的 Unix 风格 绝对路径 （以 '/' 开头），请你将其转化为 更加简洁的规范路径。
+
+在 Unix 风格的文件系统中规则如下：
+
+一个点 '.' 表示当前目录本身。
+此外，两个点 '..' 表示将目录切换到上一级（指向父目录）。
+任意多个连续的斜杠（即，'//' 或 '///'）都被视为单个斜杠 '/'。
+任何其他格式的点（例如，'...' 或 '....'）均被视为有效的文件/目录名称。
+返回的 简化路径 必须遵循下述格式：
+
+始终以斜杠 '/' 开头。
+两个目录名之间必须只有一个斜杠 '/' 。
+最后一个目录名（如果存在）不能 以 '/' 结尾。
+此外，路径仅包含从根目录到目标文件或目录的路径上的目录（即，不含 '.' 或 '..'）。
+返回简化后得到的 规范路径 。
+
+* 示例1：
+>输入：path = "/home/"
+>输出："/home"
+* 示例2：
+>输入：path = "/home/user/Documents/../Pictures"
+>输出："/home/user/Pictures"
+
+### 代码
+```java
+class Solution {
+    public String simplifyPath(String path) {
+        String[] strings = path.split("/");
+        Stack<String> stack = new Stack<>();
+        Stack<String> tmpstack = new Stack<>();
+        for (String string : strings) {
+            if (string.isEmpty() || string.equals(".")) {
+                continue;
+            }
+            if (!string.equals("..")) {
+                stack.push(string);
+            } else if (!stack.isEmpty()) {
+                stack.pop();
+            }
+        }
+        while (!stack.isEmpty()) {
+            tmpstack.push(stack.pop());
+        }
+        StringBuilder sb = new StringBuilder();
+        if (tmpstack.isEmpty()) {
+            sb.append('/');
+        } else {
+            while (!tmpstack.isEmpty()) {
+                sb.append('/');
+                sb.append(tmpstack.pop());
+            }
+        }
+        return sb.toString();
+    }
+}
+```
+
+<hr>
+
 ## 73. 矩阵置零
 ### **题目**
 给定一个m * n的矩阵，如果一个元素为0，则将其所在行和列的所有元素都设为0。请使用原地算法。
@@ -531,6 +824,196 @@ public class Solution {
 
 <hr>
 
+## 92. 反转链表 II
+### **题目**
+给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+<a href="https://sm.ms/image/IdNStKhCOLFg2lE" target="_blank"><img src="https://s2.loli.net/2025/08/26/IdNStKhCOLFg2lE.png" ></a>
+
+* 示例1
+>输入：head = [1,2,3,4,5], left = 2, right = 4
+>输出：[1,4,3,2,5]
+
+<a href="https://sm.ms/image/zmte8AKy9p27GvS" target="_blank"><img src="https://s2.loli.net/2025/08/26/zmte8AKy9p27GvS.png" ></a>
+### 代码
+```java
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode(-1, head);
+        ListNode prev = dummy;
+        ListNode cur = head;
+        for (int i = 0; i < left - 1; i++) {
+            cur = cur.next;
+            prev = prev.next;
+        }
+        for (int i = 0; i < right - left; i++) {
+            ListNode tmp = cur.next;
+            cur.next = tmp.next;
+            tmp.next = prev.next;
+            prev.next = tmp;
+        }
+        return dummy.next;
+    }
+}
+```
+
+<hr>
+
+## 150. 逆波兰表达式求值
+### **题目**
+给你一个字符串数组 tokens ，表示一个根据 逆波兰表示法 表示的算术表达式。 请你计算该表达式。返回一个表示表达式值的整数。
+
+>输入：tokens = ["2","1","+","3","*"]
+>输出：9
+>解释：该算式转化为常见的中缀算术表达式为：((2 + 1) * 3) = 9
+
+### 代码
+```java
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        for (String token : tokens) {
+            if (isNumber(token)) {
+                stack.push(Integer.parseInt(token));
+            } else {
+                int a = stack.pop();
+                int b = stack.pop();
+                switch (token) {
+                    case "+": stack.push(a + b); break;
+                    case "-": stack.push(b - a); break;
+                    case "*": stack.push(a * b); break;
+                    case "/": stack.push(b / a); break;
+                }
+            }
+        }
+        return stack.pop();
+    }
+
+    private static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+}
+```
+
+<hr>
+
+## 155. 最小栈
+### **题目**
+设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
+实现 MinStack 类:
+MinStack() 初始化堆栈对象。
+void push(int val) 将元素val推入堆栈。
+void pop() 删除堆栈顶部的元素。
+int top() 获取堆栈顶部的元素。
+int getMin() 获取堆栈中的最小元素。
+
+>输入：["MinStack","push","push","push","getMin","pop","top","getMin"]   [[],[-2],[0],[-3],[],[],[],[]]
+>输出：[null,null,null,null,-3,null,0,-2]
+>解释：
+      MinStack minStack = new MinStack();
+      minStack.push(-2);
+      minStack.push(0);
+      minStack.push(-3);
+      minStack.getMin();   --> 返回 -3.
+      minStack.pop();
+      minStack.top();      --> 返回 0.
+      minStack.getMin();   --> 返回 -2.
+
+### 代码
+```java
+class MinStack {
+    Stack<Integer> stack;
+    Stack<Integer> minStack;
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
+
+    public void push(int val) {
+        if (minStack.isEmpty() || val <= minStack.peek()) {
+            minStack.push(val);
+        }
+        stack.push(val);
+    }
+
+    public void pop() {
+        if (stack.peek().equals(minStack.peek())) {
+            minStack.pop();
+        }
+        stack.pop();
+    }
+
+    public int top() {
+        return stack.peek();
+    }
+
+    public int getMin() {
+        return minStack.peek();
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(val);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+```
+
+<hr>
+
+## 160. 相交链表
+### 题目
+编写一个程序，找到两个单链表相交的起始节点。  
+<img src="https://s2.loli.net/2025/08/21/XEGihx6WsZFHcqo.png" >  
+在节点 c1 开始相交。
+
+### 代码
+```java
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        Set<ListNode> set = new HashSet<>();
+        ListNode cur = headA;
+        while (cur != null) {
+            set.add(cur);
+            cur = cur.next;
+        }
+        cur = headB;
+        while (cur != null) {
+            if (set.contains(cur)) {
+                return cur;
+            }
+            cur = cur.next;
+        }
+        return null;
+    }
+}
+```
+```java
+public class Solution1 {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode a = headA;
+        ListNode b = headB;
+        while (a != b) {
+            a = a == null ? headB : a.next;
+            b = b == null ? headA : b.next;
+        }
+        return a;
+    }
+}
+```
+
+<hr>
+
 ## 189. 轮转数组
 ### 题目
 给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。
@@ -562,6 +1045,133 @@ class Solution {
 记住最后将临时数组写回原数组。
 
 <hr>
+
+## 203. 移除链表元素
+### 题目
+给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。  
+
+* 示例1：
+
+>输入: head = [1,2,6,3,4,5,6], val = 6
+>输出: [1,2,3,4,5]
+
+### 代码
+```java
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(0, head);
+        ListNode prev = dummy;
+        while (prev.next != null) {
+            if (prev.next.val == val) {
+                prev.next = prev.next.next;
+            } else {
+                prev = prev.next;
+            }
+        }
+        return dummy.next;
+    }
+}
+```
+```java
+public class Solution2 {
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) return null;
+        ListNode dummy = new ListNode(-1, head);
+        ListNode prev = dummy;
+        ListNode cur = head;
+        while (cur != null) {
+            if (cur.val == val) {
+                prev.next = cur.next;
+            } else {
+                prev = cur;
+            }
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+}
+```
+```java
+public class Solution1 {
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) return null;
+        head.next = removeElements(head.next, val);
+        return head.val == val ? head.next : head;
+    }
+}
+```
+
+<hr>
+
+## 224. 基本计算器
+### **题目**
+给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。
+
+* 示例1：
+>输入：s = "1 + 1"
+>输出：2
+* 示例2：
+>输入：s = "(1+(4+5+2)-3)+(6+8)"
+>输出：23
+
+### 代码
+```java
+class Solution {
+    public int calculate(String s) {
+        Stack<Integer> stack = new Stack<>();
+        int sign = 1;
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                int tmp = c - '0';
+                while (i + 1 < s.length() && Character.isDigit(s.charAt(i + 1))) {
+                    i++;
+                    tmp = tmp * 10 + s.charAt(i) - '0';
+                }
+                count = count +  tmp * sign;
+            } else if (c == '+') {
+                sign = 1;
+            } else if (c == '-') {
+                sign = -1;
+            } else if (c == '(') {
+                stack.push(count);
+                stack.push(sign);
+                count = 0;
+                sign = 1;
+            } else if (c == ')') {
+                int topSign = stack.pop();
+                int topNum = stack.pop();
+                count = topNum + count * topSign;
+            }
+        }
+        return count;
+    }
+}
+```
+`Character.isDigit(s.charAt(i + 1)` 注意不要使用++i，因为会改变i的值。
+
+<hr>
+
+## 237. 删除链表的节点
+### 题目
+有一个单链表的 head，我们想删除它其中的一个节点 node。给你一个需要删除的节点 node 。你将 无法访问 第一个节点 head。  
+
+* 示例1：
+>输入: head = [4,5,1,9], node = 5
+>输出: [4,1,9]
+
+### 代码
+```java
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+```
+
 
 ## 238. 除自身以外数组的乘积
 ### **题目**
@@ -605,6 +1215,35 @@ class Solution {
 }
 ```
 由于时间复杂度为O(n)，所以不能使用双重循环。
+
+<hr>
+
+## 283. 移动零
+### **题目**
+给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+* 示例1：
+>输入：nums = [0,1,0,3,12]
+>输出：[1,3,12,0,0]
+
+### 代码
+```java
+public class Solution {
+    public void moveZeroes(int[] nums) {
+        int length = nums.length;
+        int cur = 0;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] != 0) {
+                nums[cur++] = nums[i];
+            }
+        }
+        for (int i = cur; i < length; i++) {
+            nums[i] = 0;
+        }
+    }
+}
+
+```
 
 <hr>
 
@@ -680,6 +1319,120 @@ class Solution {
 
 <hr>
 
+## 328. 奇偶链表
+### **题目**
+给定单链表的头节点 head ，将所有索引为奇数的节点和索引为偶数的节点分别分组，保持它们原有的相对顺序，然后把偶数索引节点分组连接到奇数索引节点分组之后，返回重新排序的链表。
+第一个节点的索引被认为是 奇数 ， 第二个节点的索引为 偶数 ，以此类推。  
+
+* 示例1：
+>输入：head = [1,2,3,4,5]
+>输出：[1,3,5,2,4]
+
+### 代码
+```java
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null || head.next == null) return head;
+        ListNode dummy = new ListNode(-1, head);
+        ListNode prev = head;
+        ListNode cur = head.next;
+        ListNode tmp = head.next;
+        while (tmp != null && tmp.next != null) {
+            prev.next = prev.next.next;
+            tmp.next = tmp.next.next;
+            prev = prev.next;
+            tmp = tmp.next;
+        }
+        prev.next = cur;
+        return dummy.next;
+    }
+}
+```
+
+<hr>
+
+## 394. 字符串解码
+### 题目
+给定一个经过编码的字符串，返回它解码后的字符串。  
+编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。  
+你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。  
+此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。  
+
+* 示例1：
+>输入: s = "3[a]2[bc]"
+>输出: "aaabcbc"
+
+* 示例2：
+>输入: s = "3[a2[c]]"
+>输出: "accaccacc"
+
+### 代码
+```java
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> stack1 = new Stack<>();
+        Stack<StringBuilder> stack2 = new Stack<>();
+        int tmp = 0;
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (Character.isDigit(ch)) {
+                tmp = tmp * 10 + ch - '0';
+            } else if (ch >= 'a' && ch <= 'z') {
+                res.append(ch);
+            } else if (ch == '[') {
+                stack1.push(tmp);
+                stack2.push(res);
+                tmp = 0;
+                res = new StringBuilder();
+            } else if (ch == ']') {
+                int count = stack1.pop();
+                StringBuilder out = stack2.pop();
+                for (int j = 0; j < count; j++) {
+                    out.append(res.toString());
+                }
+                res = out;
+            }
+        }
+        return res.toString();
+
+    }
+}
+```
+```java
+public class Solution1 {
+    public String decodeString(String s) {
+        Stack<Integer> numStack = new Stack<>();
+        Stack<String> strStack = new Stack<>();
+        int tmp = 0;
+        String res = "";
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                tmp = tmp * 10 + c - '0';
+            } else if (c == '[') {
+                numStack.push(tmp);
+                strStack.push(res);
+                res = "";
+                tmp = 0;
+            } else if (c == ']') {
+                StringBuilder ans = new StringBuilder(strStack.pop());
+                int count = numStack.pop();
+                for (int j = 0; j < count; j++) {       //res = c  stack.pop() = a
+                    ans.append(res);
+                }
+                res = ans.toString();
+            } else {
+                res += c;
+            }
+        }
+        return res;
+    }
+}
+```
+
+<hr>
+
 ## 485. 最大连续 1 的个数
 ### **题目**
 给定一个二进制数组 nums ， 计算其中最大连续 1 的个数。
@@ -693,7 +1446,7 @@ class Solution {
 >输入：nums = [1,0,1,1,0,1]
 >输出：2
 
-## 代码
+### 代码
 ```java  
 public class Solution {
     public int findMaxConsecutiveOnes(int[] nums) {
@@ -849,3 +1602,67 @@ public class Solution {
 使用前缀和，左侧和为 sum，右侧和为 total - sum - nums[i]。
 如果左侧和等于右侧和，则有 sum == total - sum - nums[i]，整理后得到 2 * sum + nums[i] == total。
 
+<hr>
+
+## 876. 链表的中间结点
+### **题目**
+给你单链表的头结点 head ，请你找出并返回链表的中间结点。 如果有两个中间结点，则返回第二个中间结点。 
+
+* 示例1：
+>输入：head = [1,2,3,4,5]
+>输出：[3,4,5]
+
+### 代码
+```java
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode pre = head, cur = head;
+        int length = 0;
+        while (pre != null) {
+            pre = pre.next;
+            length++;
+        }
+        int tmp = 0;
+        while (tmp < length / 2) {
+            cur = cur.next;
+            tmp++;
+        }
+        return cur;
+    }
+}
+```
+
+<hr>
+
+## 1614. 括号的最大嵌套深度
+### 题目
+给定 有效括号字符串 s，返回 s 的 嵌套深度。嵌套深度是嵌套括号的 最大 数量。
+
+* 示例1：
+
+>输入: s = "(1+(2*3)+((8)/4))+1"
+>输出: 3
+>解释: 数字 8 在嵌套的 3 层括号中。
+
+### 代码
+```java
+class Solution {
+    public int maxDepth(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = s.toCharArray();
+        int tmp = 0, result = 0;
+        for (char c : chars) {
+            if (c == '(') {
+                stack.push('c');
+                tmp++;
+                result = Math.max(result, tmp);
+            } else if (c == ')') {
+                stack.pop();
+                tmp--;
+            }
+        }
+        return result;
+    }
+}
+```
+注意字符串是有效的括号字符串，所以考虑左括号存在就加一，有括号存在就减一。

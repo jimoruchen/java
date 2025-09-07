@@ -206,6 +206,19 @@ public class Test {
 int count = Arrays.stream(nums).sum();
 ```
 
+* 字符串转为字符数组
+```java
+public class Test {
+    public static void main(String[] args) {
+        String str = "abc";
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            System.out.println(c);
+        }
+    }
+}
+```
+
 * 将数字数组转为数字
 ```java
 public class Test {
@@ -231,6 +244,27 @@ public class Test {
         System.out.println(i3);
     }
 }
+```
+
+* 判断字符串是否是数字
+```java
+    private static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+```
+
+* 判断字符是否是数字
+`Character.isDigit(ch)`
+
+```java
+   private static boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
 ```
 
 * 将整型转为字符串

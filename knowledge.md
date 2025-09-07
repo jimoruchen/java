@@ -197,13 +197,26 @@ public class Test {
 ```
 
 ## 4.常用方法
-* charAt(i)读取字符串第i个元素
+* charAt(i)读取字符串第i个整数值
 `for (int i = 0; i < numStr.length(); i++) 
      result[i] = numStr.charAt(i) - '0';`  
 
 * 对数组求和
 ```java
 int count = Arrays.stream(nums).sum();
+```
+
+* 字符串转为字符数组
+```java
+public class Test {
+    public static void main(String[] args) {
+        String str = "abc";
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            System.out.println(c);
+        }
+    }
+}
 ```
 
 * 将数字数组转为数字
@@ -231,6 +244,27 @@ public class Test {
         System.out.println(i3);
     }
 }
+```
+
+* 判断字符串是否是数字
+```java
+    private static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+```
+
+* 判断字符是否是数字
+`Character.isDigit(ch)`
+
+```java
+   private static boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
 ```
 
 * 将整型转为字符串
